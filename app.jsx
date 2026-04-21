@@ -13,11 +13,53 @@ function useIsMobile(breakpoint = 768) {
 
 /* ============ Shared ============ */
 
+function Tooltip({ label, children }) {
+  const [rect, setRect] = useState(null);
+  const ref = useRef(null);
+  return (
+    <>
+      <div ref={ref}
+        onMouseEnter={() => {
+          if (ref.current && ref.current.scrollWidth > ref.current.clientWidth)
+            setRect(ref.current.getBoundingClientRect());
+        }}
+        onMouseLeave={() => setRect(null)}
+        style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', cursor: 'default' }}>
+        {children}
+      </div>
+      {rect && ReactDOM.createPortal(
+        <div style={{
+          position: 'fixed',
+          top: rect.bottom + 7,
+          left: rect.left + rect.width / 2,
+          transform: 'translateX(-50%)',
+          background: 'var(--ink-2)',
+          color: '#fff',
+          padding: '5px 11px',
+          borderRadius: 7,
+          fontSize: 12, fontWeight: 600,
+          fontFamily: 'var(--sans)', letterSpacing: '-0.01em', lineHeight: 1.4,
+          whiteSpace: 'nowrap', zIndex: 9999, pointerEvents: 'none',
+        }}>
+          <div style={{
+            position: 'absolute', top: -5, left: '50%', transform: 'translateX(-50%)',
+            width: 0, height: 0,
+            borderLeft: '5px solid transparent', borderRight: '5px solid transparent',
+            borderBottom: '5px solid var(--ink-2)',
+          }} />
+          {label}
+        </div>,
+        document.body
+      )}
+    </>
+  );
+}
+
 const SectionLabel = ({ kor }) =>
 <div style={{ marginBottom: 48 }}>
     <h2 style={{
     fontFamily: 'var(--sans)', fontWeight: 700,
-    fontSize: 40, letterSpacing: '-0.03em', lineHeight: 1.15
+    fontSize: 40, letterSpacing: '-0.04em', lineHeight: 1.1
   }}>{kor}</h2>
   </div>;
 
@@ -54,7 +96,7 @@ function Nav() {
       style={{ height: 20, width: 'auto', display: 'block' }} />
       {!isMobile &&
         <div style={{ display: 'flex', gap: 36, fontSize: 14, lineHeight: 1.429, letterSpacing: '0.0145em', fontWeight: 500, color: 'var(--ink)', whiteSpace: 'nowrap' }}>
-          {[['강의소개', '#catalog'], ['강의일정', '#schedule'], ['수강후기', '#reviews'], ['강의신청', '#cta']].map(([l, h]) =>
+          {[['강의 소개', '#catalog'], ['강의일정', '#schedule'], ['수강후기', '#reviews'], ['강의신청', '#cta']].map(([l, h]) =>
           <a key={l} href={h} style={{ transition: 'color 0.15s' }}
           onMouseEnter={(e) => e.currentTarget.style.color = 'var(--muted)'}
           onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ink)'}>
@@ -137,6 +179,7 @@ function Features() {
   const isMobile = useIsMobile();
   const items = [
   {
+    label: 'Knowledge',
     title: '전문가의 지식을 일상의 언어로',
     body: '현장에서 오랜도록 쌓아온 전문가의 시각으로, 어려운 개념도 일상의 언어로 풀어줍니다.',
     icon:
@@ -145,6 +188,7 @@ function Features() {
       </svg>
   },
   {
+    label: 'Online',
     title: 'ZOOM을 통한 비대면 수업',
     body: 'ZOOM 비대면 강의로 이동 시간 없이, 지역에 구애받지 않고 바로 물을 수 있는 소통 환경을 제공합니다.',
     icon:
@@ -153,6 +197,7 @@ function Features() {
       </svg>
   },
   {
+    label: 'Recording',
     title: '무제한 녹화본 제공',
     body: '수업이 끝난 뒤에도 언제든 다시 들을 수 있도록 고화질 녹화본을 제공하여 복습과 보완학습을 돕습니다.',
     icon:
@@ -162,17 +207,17 @@ function Features() {
   }];
 
   return (
-    <section style={{ background: 'var(--ivory)', padding: isMobile ? '80px 24px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
+    <section style={{ background: 'var(--ink)', color: 'var(--paper)', padding: isMobile ? '80px 24px' : '140px 40px', borderTop: '1px solid var(--line-dark)' }}>
       <Container>
         <SectionLabel kor="Inhalt를 선택해야 할 이유" />
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 40 : 56 }}>
           {items.map((it, i) =>
-          <div key={i} style={{ padding: '8px 0', display: 'flex', flexDirection: 'column', gap: 24 }}>
-              <div style={{ color: '#111111' }}>{it.icon}</div>
-              <h3 style={{ fontFamily: 'var(--sans)', fontWeight: 700, fontSize: 22, lineHeight: 1.364, letterSpacing: '-0.02em', color: 'var(--ink)' }}>
+          <div key={i} style={{ padding: '8px 0', display: 'flex', flexDirection: 'column', gap: 20 }}>
+              <div style={{ color: 'rgba(255,255,255,0.5)' }}>{it.icon}</div>
+              <h3 style={{ fontFamily: 'var(--sans)', fontWeight: 700, fontSize: 22, lineHeight: 1.25, letterSpacing: '-0.03em', color: 'var(--paper)' }}>
                 {it.title}
               </h3>
-              <p style={{ fontSize: 14, lineHeight: 1.8, letterSpacing: '0.0145em', color: 'var(--ink-soft)', fontWeight: 400 }}>{it.body}</p>
+              <p style={{ fontSize: 14, lineHeight: 1.85, letterSpacing: '-0.01em', color: 'rgba(255,255,255,0.55)', fontWeight: 400 }}>{it.body}</p>
             </div>
           )}
         </div>
@@ -307,27 +352,28 @@ function Schedule() {
   }
 
   const [activeMonth, setActiveMonth] = useState(5);
+  const [openIdx, setOpenIdx] = useState(null);
 
   const juneCourses = [
-  { date: '2026-06-01', topic: '미학: 사상가들을 중심으로', kind: 'regular', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-06-02', topic: '칸트의 미학', kind: 'regular', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-06-03', topic: '헤겔의 미학', kind: 'regular', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-06-04', topic: '서양미술사: 고대, 중세, 근대의 서양미술', kind: 'regular', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-06-08', topic: '예술철학: 사상가들을 중심으로', kind: 'regular', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-06-05', topic: '이탈리아 르네상스의 도시와 미술', kind: 'special', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-06-12', topic: '바로크 미술의 두 세계: 카라바조와 렘브란트', kind: 'special', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-06-19', topic: '낭만주의 미술의 시작과 전개', kind: 'special', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-06-26', topic: '인상주의와 후기 인상주의: 현대미술의 문턱', kind: 'special', weeks: 5, time: '20:20–22:00' }];
+  { date: '2026-06-01', topic: '미학: 사상가들을 중심으로', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>이 강의의 기본적인 목적은 <strong>미학에 입문하기 위해 갖춰야 할 지식의 전달</strong>입니다. 미학이라는 학문은 <strong>미학적 속성, 미학적 대상, 미학적 태도</strong>라는 세 가지 주제를 중심으로 그 내용을 마련해 왔습니다. 달리 말하자면, 미학은 이 세 가지 주제를 공전하는 개념과 쟁점들로 이루어진 학문인 것입니다.</p><p style={{marginBottom:14}}>우선 미학적 속성에는 아름다움과 추함, 그리고 숭고와 같이 <strong>논리적 사고가 쉽사리 그 뜻을 헤아릴 수 없는 감성적 차원의 가치들</strong>이 포함됩니다. 다음으로 미학적 대상은 미학적 속성을 내재한 대상을 지칭합니다. 미학적 대상의 대표적인 사례로는 예술과 자연이 있습니다. 마지막으로 미학적 태도란 미학적 대상에 접근할 때 요구되는 <strong>특별한 방식</strong>을 지칭합니다.</p><p>이 강의는 이렇듯 미학의 핵심을 이루는 세 가지 주제와 결부된 다양한 개념과 쟁점을 살펴봅니다. 이를 통해 수강생분들에게 <strong>미학의 기초를 다지는 기회, 또는 미학에 관한 지식을 보다 확장해 나갈 수 있는 기회</strong>를 제공할 것입니다.</p></> },
+  { date: '2026-06-02', topic: '칸트의 미학', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>이 강의는 근대 미학의 정초자로 불리는 칸트의 미학을 집중적으로 다룹니다. 《판단력 비판》을 중심으로 <strong>취미 판단, 숭고, 미적 이념, 목적론</strong>의 개념들을 순서대로 살펴보며, 칸트가 이성·감성·오성을 어떻게 미학의 언어로 통합했는지를 이해합니다.</p><p style={{marginBottom:14}}>칸트의 미학에서 핵심이 되는 물음은 "<strong>아름다움에 관한 판단은 어떻게 보편성을 주장할 수 있는가</strong>"입니다. 주관적이면서도 보편적 동의를 요구하는 이 독특한 판단 형식을 이해하기 위해, 강의는 취미 판단의 네 계기를 꼼꼼히 분석합니다.</p><p>나아가 자연의 숭고와 예술의 미가 어떻게 구분되는지, 그리고 예술 천재 개념이 왜 등장했는지를 살펴보며 칸트 미학의 전체 구도를 파악합니다. 총 5주 과정으로 진행됩니다.</p></> },
+  { date: '2026-06-03', topic: '헤겔의 미학', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>헤겔은 예술을 <strong>정신이 감각적 형식 속에서 자기를 드러내는 방식</strong>으로 정의했습니다. 이 강의는 헤겔의 《미학 강의》를 바탕으로, 예술이 상징적 형식에서 고전적 형식을 거쳐 낭만적 형식으로 발전해 나가는 역사적 도식을 면밀히 분석합니다.</p><p style={{marginBottom:14}}>특히 이 강의에서는 헤겔이 제기한 <strong>"예술의 종언"</strong> 테제를 집중적으로 검토합니다. 예술이 더 이상 정신의 최고 표현이 될 수 없다는 이 도발적 주장은, 오늘날까지도 예술철학의 핵심 쟁점으로 남아 있습니다.</p><p>헤겔 미학을 통해 예술과 역사, 예술과 철학의 관계를 새롭게 사유하는 기회를 가질 것입니다. 총 5주 과정으로 진행됩니다.</p></> },
+  { date: '2026-06-04', topic: '서양미술사: 고대, 중세, 근대의 서양미술', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>이 강의는 고대 그리스의 조각과 건축에서 출발해 중세 고딕 미술, 르네상스, 바로크를 거쳐 <strong>근대 미술의 문턱</strong>까지 서양미술사의 긴 흐름을 조망합니다. 단순한 연대기적 나열이 아니라, 각 시대의 <strong>사회·종교·철학적 맥락</strong>과 미술의 관계를 중심으로 서술합니다.</p><p style={{marginBottom:14}}>그리스의 이상적 미, 중세의 신성한 상징 언어, 르네상스의 원근법과 인체 해부학, 바로크의 극적 표현 사이의 <strong>연속성과 단절</strong>을 추적함으로써, 서양미술이 어떤 문제의식 위에서 변화해 왔는지를 이해합니다.</p><p>미술사에 처음 입문하는 분들을 위해 설계된 강의로, 주요 작품과 작가를 사례로 들어 쉽게 설명합니다. 총 5주 과정으로 진행됩니다.</p></> },
+  { date: '2026-06-08', topic: '예술철학: 사상가들을 중심으로', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>예술이란 무엇인가라는 물음은 철학사에서 끊임없이 제기되어 왔습니다. 이 강의는 플라톤의 모방론에서 아리스토텔레스의 카타르시스, 톨스토이의 감정 전달론, 듀이의 경험으로서의 예술까지 <strong>주요 사상가들의 예술론을 비교·검토</strong>합니다.</p><p style={{marginBottom:14}}>각 사상가들이 예술의 본질, 가치, 기능을 어떻게 규정했는지를 살펴보며, 그 이론들이 <strong>서로 어떻게 대립하고 대화하는지</strong>를 파악합니다. 이를 통해 예술을 둘러싼 철학적 논의의 전체 지형을 이해할 수 있습니다.</p><p>철학적 배경 없이도 충분히 따라올 수 있도록 설계된 강의입니다. 총 5주 과정으로 진행됩니다.</p></> },
+  { date: '2026-06-05', topic: '이탈리아 르네상스의 도시와 미술', kind: 'special', weeks: 1, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>이탈리아 르네상스 미술은 <strong>피렌체, 베네치아, 로마</strong>라는 세 도시를 중심으로 각기 다른 성격으로 꽃피었습니다. 이 강의는 르네상스 미술을 단순히 미술사적 사건으로 보는 것이 아니라, <strong>도시의 권력·상업·종교·인문주의</strong>가 미술과 어떻게 맞물려 새로운 시각 문화를 만들어냈는지를 추적합니다.</p><p style={{marginBottom:14}}>보티첼리와 레오나르도 다 빈치, 미켈란젤로와 티치아노를 예시로 들며, 각 도시의 후원 시스템과 사회적 맥락이 미술 양식에 어떤 영향을 미쳤는지를 살펴봅니다. 특히 <strong>원근법의 발명과 인체 표현의 변화</strong>가 당대의 세계관 전환과 어떻게 연결되는지를 중점적으로 다룹니다.</p><p>단회 특별강의로, 참가 인원이 한정되어 있습니다. 사전 신청 후 수강 확정 순으로 진행됩니다.</p></> },
+  { date: '2026-06-12', topic: '바로크 미술의 두 세계: 카라바조와 렘브란트', kind: 'special', weeks: 1, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>바로크 미술은 르네상스의 이상적 조화를 넘어 <strong>강렬한 감정과 극적인 빛의 대비</strong>를 전면에 내세웁니다. 이 강의는 이탈리아의 카라바조와 네덜란드의 렘브란트를 중심으로, 바로크 미술의 두 가지 서로 다른 얼굴을 비교합니다.</p><p style={{marginBottom:14}}>카라바조의 <strong>키아로스쿠로</strong>와 거친 현실주의, 렘브란트의 내면적 심리 표현을 나란히 놓고 분석함으로써, 같은 시대에 왜 이렇게 다른 회화 언어가 발전했는지를 이해합니다. 여기서 종교개혁과 반종교개혁이라는 역사적 맥락이 중요한 열쇠가 됩니다.</p><p>단회 특별강의로, 참가 인원이 한정되어 있습니다. 사전 신청 후 수강 확정 순으로 진행됩니다.</p></> },
+  { date: '2026-06-19', topic: '낭만주의 미술의 시작과 전개', kind: 'special', weeks: 1, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>낭만주의 미술은 계몽주의의 이성 중심주의에 대한 반발로 출현했습니다. <strong>감정, 상상력, 자연, 민족 정체성</strong>을 전면에 내세우며 미술의 언어를 근본적으로 바꾸어 놓은 이 운동을, 고야·들라크루아·프리드리히의 대표작을 통해 살펴봅니다.</p><p style={{marginBottom:14}}>특히 고야의 정치적 비판 의식, 들라크루아의 역동적 색채, 프리드리히의 숭고한 자연 풍경이 각각 어떤 방식으로 <strong>낭만주의적 세계 인식</strong>을 표현하는지를 비교합니다. 세 화가를 통해 낭만주의의 다양한 스펙트럼을 이해할 수 있습니다.</p><p>단회 특별강의로, 참가 인원이 한정되어 있습니다. 사전 신청 후 수강 확정 순으로 진행됩니다.</p></> },
+  { date: '2026-06-26', topic: '인상주의와 후기 인상주의: 현대미술의 문턱', kind: 'special', weeks: 1, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>인상주의는 미술의 역사에서 하나의 결정적인 전환점입니다. <strong>빛과 순간, 개인적 감각</strong>을 포착하는 데 집중한 모네와 르누아르로부터, 이를 구조적·상징적으로 발전시킨 세잔과 반 고흐까지, 이 강의는 인상주의가 어떻게 현대미술로 나아가는 길을 열었는지를 추적합니다.</p><p style={{marginBottom:14}}>아카데미즘에 대한 반발로 시작된 인상주의가 <strong>색채, 붓터치, 구도</strong> 등 미술의 형식적 요소 자체를 탐구하는 방향으로 진화한 과정을 살펴봅니다. 세잔의 기하학적 구조와 반 고흐의 표현적 필선이 어떻게 20세기 미술에 영향을 미쳤는지도 다룹니다.</p><p>단회 특별강의로, 참가 인원이 한정되어 있습니다. 사전 신청 후 수강 확정 순으로 진행됩니다.</p></> }];
 
   const julyCourses = [
-  { date: '2026-07-06', topic: '미학: 개념과 쟁점을 중심으로', kind: 'regular', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-07-07', topic: '벤야민의 미학', kind: 'regular', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-07-01', topic: '서양미술사: 현대의 서양미술', kind: 'regular', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-07-02', topic: '한국미술사: 현대의 한국미술', kind: 'regular', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-07-13', topic: '서양음악사: 서양음악의 생성사', kind: 'regular', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-07-14', topic: '세계영화사: 세계를 이미지로 사유하기', kind: 'regular', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-07-08', topic: '예술철학: 개념과 쟁점을 중심으로', kind: 'regular', weeks: 5, time: '20:20–22:00' },
-  { date: '2026-07-09', topic: '예술철학: 비평이론을 중심으로', kind: 'regular', weeks: 5, time: '20:20–22:00' }];
+  { date: '2026-07-06', topic: '미학: 개념과 쟁점을 중심으로', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>이 강의는 <strong>재현, 표현, 형식, 제도</strong> 등 현대 미학의 핵심 개념들을 쟁점별로 정리합니다. '미학: 사상가들을 중심으로' 강의가 역사적 흐름을 따른다면, 이 강의는 개념과 논쟁 구도를 중심으로 미학을 체계적으로 이해하는 데 초점을 맞춥니다.</p><p style={{marginBottom:14}}>예술과 비예술의 경계는 어떻게 설정되는가, 예술 작품의 의미는 어디서 오는가, <strong>감상자의 경험은 어떤 역할을 하는가</strong> — 이러한 물음들을 통해 현대 미학이 다루는 핵심 문제들을 파악합니다.</p><p>입문 강의를 들은 후 심화학습을 원하는 분들께 추천합니다. 총 5주 과정으로 진행됩니다.</p></> },
+  { date: '2026-07-07', topic: '벤야민의 미학', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>발터 벤야민의 〈기술복제시대의 예술작품〉은 20세기 미학의 가장 중요한 텍스트 중 하나입니다. 이 강의는 벤야민이 제시한 <strong>아우라, 복제, 지각의 변화</strong> 개념을 꼼꼼히 분석하며, 대중문화와 예술의 관계에 관한 그의 통찰을 현재의 시각에서 재조명합니다.</p><p style={{marginBottom:14}}>벤야민이 왜 영화와 사진에 주목했는지, <strong>파시즘의 미학화</strong>에 대한 그의 비판이 무엇을 의미하는지를 이해함으로써, 미학과 정치의 관계를 새로운 방식으로 사유할 수 있게 됩니다.</p><p>벤야민의 텍스트를 직접 읽으며 진행하되, 배경 지식 없이도 따라올 수 있도록 충분한 맥락을 제공합니다. 총 5주 과정으로 진행됩니다.</p></> },
+  { date: '2026-07-01', topic: '서양미술사: 현대의 서양미술', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>이 강의는 인상주의 이후부터 현재까지, 20세기 서양미술의 격동하는 흐름을 다룹니다. <strong>표현주의, 다다, 초현실주의, 추상표현주의, 팝아트, 개념미술</strong>을 거쳐 오늘날의 동시대 미술까지, 각 사조의 핵심 문제의식과 대표 작가를 살펴봅니다.</p><p style={{marginBottom:14}}>단순한 연대기 서술이 아니라 <strong>왜 이 운동들이 등장했는가</strong>를 중심에 놓고 강의합니다. 두 차례의 세계대전, 냉전, 자본주의의 전개가 미술의 언어를 어떻게 바꾸었는지를 이해하는 것이 이 강의의 핵심입니다.</p><p>미술사 입문 강의('고대, 중세, 근대')를 먼저 수강하면 이해에 도움이 됩니다. 총 5주 과정으로 진행됩니다.</p></> },
+  { date: '2026-07-02', topic: '한국미술사: 현대의 한국미술', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>한국 현대미술은 서양 미술의 영향을 받으면서도 독자적인 길을 걸어왔습니다. 이 강의는 해방 이후부터 현재까지 <strong>단색화, 민중미술, 설치·미디어아트</strong> 등 주요 흐름을 짚으며, 한국미술의 정체성이 어떻게 형성되어 왔는지를 탐구합니다.</p><p style={{marginBottom:14}}>박서보·윤형근·이우환 등 단색화 작가들의 수행적 미학, 1980년대 민중미술의 사회적 발언, 그리고 국제 미술 무대에서 한국 작가들이 어떻게 자리를 잡아왔는지를 살펴봅니다. <strong>국제성과 지역성의 긴장</strong>이 이 강의의 중심 주제입니다.</p><p>한국미술에 관심이 있다면 배경 지식 없이도 수강할 수 있습니다. 총 5주 과정으로 진행됩니다.</p></> },
+  { date: '2026-07-13', topic: '서양음악사: 서양음악의 생성사', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>이 강의는 서양음악이 어떻게 오늘날의 형태로 발전해 왔는지를 역사적으로 살펴봅니다. <strong>바로크의 대위법, 고전주의의 소나타 형식, 낭만주의의 표제음악</strong>을 거쳐 20세기 현대음악까지, 음악의 양식적 변화를 핵심 작곡가와 작품을 통해 이해합니다.</p><p style={{marginBottom:14}}>악보를 읽지 못해도 충분히 즐길 수 있는 강의입니다. 바흐·모차르트·베토벤·슈베르트·브람스·드뷔시의 작품을 직접 들으면서, <strong>음악적 형식과 당대의 세계관</strong>이 어떻게 연결되는지를 감각적으로 파악합니다.</p><p>음악을 즐기는 분이라면 누구나 참여할 수 있습니다. 총 5주 과정으로 진행됩니다.</p></> },
+  { date: '2026-07-14', topic: '세계영화사: 세계를 이미지로 사유하기', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>영화는 20세기가 발명한 가장 독창적인 예술 형식입니다. 이 강의는 뤼미에르 형제의 첫 상영부터 할리우드 고전기, 이탈리아 네오리얼리즘, 프랑스 누벨바그, 뉴 할리우드를 거쳐 <strong>동시대 세계 영화</strong>까지의 흐름을 추적합니다.</p><p style={{marginBottom:14}}>주요 감독들의 작품을 통해 <strong>편집, 미장센, 카메라 언어</strong>가 어떻게 의미를 만들어내는지를 배우며, 영화를 단순히 감상하는 것을 넘어 분석할 수 있는 시각을 기릅니다. 히치콕·고다르·구로사와·타르코프스키·홍상수 등을 다룹니다.</p><p>영화에 관심이 있다면 배경 지식 없이 수강할 수 있습니다. 총 5주 과정으로 진행됩니다.</p></> },
+  { date: '2026-07-08', topic: '예술철학: 개념과 쟁점을 중심으로', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>이 강의는 <strong>예술의 정의, 예술적 가치, 미적 경험</strong>이라는 세 가지 큰 주제를 중심으로 현대 예술철학의 핵심 논쟁들을 체계적으로 살펴봅니다. 아서 단토의 예술종말론, 조지 디키의 제도론, 먼로 비어즐리의 의도론 등 20세기 예술철학의 주요 이론들을 비교합니다.</p><p style={{marginBottom:14}}>'예술이란 무엇인가'라는 물음에 다양한 철학자들이 어떻게 답해왔는지를 추적하면서, <strong>예술의 개념이 역사적으로 어떻게 변해왔는지</strong>를 이해합니다. 현대예술의 도발적인 사례들(뒤샹의 변기, 워홀의 브릴로 박스 등)이 이 논의에서 핵심 사례로 등장합니다.</p><p>예술철학 입문 강의를 먼저 들은 분들께 추천합니다. 총 5주 과정으로 진행됩니다.</p></> },
+  { date: '2026-07-09', topic: '예술철학: 비평이론을 중심으로', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>예술 작품을 어떻게 읽고 해석할 것인가의 문제는 20세기 내내 치열하게 논쟁되어 왔습니다. 이 강의는 <strong>형식주의, 마르크스주의, 정신분석, 페미니즘, 탈구조주의</strong> 비평 이론들을 각각의 방법론과 전제, 그리고 한계를 함께 검토합니다.</p><p style={{marginBottom:14}}>각 이론을 추상적으로 소개하는 데 그치지 않고, <strong>실제 미술 작품이나 문학 텍스트에 적용</strong>하면서 이론의 설명력과 맹점을 구체적으로 확인합니다. 롤랑 바르트의 '저자의 죽음', 로라 멀비의 '시각적 쾌락' 등 핵심 텍스트들을 함께 읽습니다.</p><p>비평에 관심 있는 분들을 위한 심화 강의입니다. 예술철학 입문 또는 개념 강의를 먼저 들으면 이해에 도움이 됩니다. 총 5주 과정으로 진행됩니다.</p></> }];
 
   const data = (activeMonth === 5 ? juneCourses : julyCourses).slice().sort((a, b) => a.date.localeCompare(b.date));
 
@@ -391,12 +437,13 @@ function Schedule() {
                   <>
                       <div style={{ fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.385, letterSpacing: '0.0194em', fontWeight: 500, color: muted ? '#C9C6BF' : isSun ? '#C44' : 'var(--ink)' }}>{c.d}</div>
                       {ev && ev.map((e, k) =>
-                    <div key={k} title={e.topic} style={{
-                      fontFamily: 'var(--sans)', fontSize: 11, fontWeight: 500,
-                      lineHeight: 1.35, letterSpacing: '-0.01em',
-                      color: e.kind === 'special' ? 'var(--accent)' : 'var(--ink)',
-                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', cursor: 'default'
-                    }}>{e.topic}</div>
+                    <Tooltip key={k} label={e.topic}>
+                      <span style={{
+                        fontFamily: 'var(--sans)', fontSize: 11, fontWeight: 500,
+                        lineHeight: 1.35, letterSpacing: '-0.01em',
+                        color: e.kind === 'special' ? 'var(--accent)' : 'var(--ink)',
+                      }}>{e.topic}</span>
+                    </Tooltip>
                     )}
                     </>
                   }
@@ -429,13 +476,116 @@ function Schedule() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+          <div style={{ border: '1px solid var(--ink)', background: 'var(--paper)', overflowX: isMobile ? 'auto' : 'visible' }}>
+            <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--ink)', minWidth: isMobile ? 480 : 'auto' }}>
+              <div style={{ fontFamily: 'var(--sans)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.0194em', color: 'var(--ink)', lineHeight: 1.364 }}>
+                이번 달 강의 목록
+              </div>
+            </div>
+
+            {data.length === 0 ?
+            <div style={{ padding: '48px 24px', textAlign: 'center', fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.385, letterSpacing: '0.0194em', color: 'var(--muted)' }}>
+                이 달에 예정된 강의가 없습니다.
+              </div> :
+
+            <div>
+                {data.map((row, i) => {
+                const [, m, d] = row.date.split('-');
+                const dow = weekdays[new Date(row.date).getDay()];
+                const isOpen = openIdx === i;
+                const isLast = i === data.length - 1;
+                return (
+                  <div key={i} style={{ borderBottom: isLast ? 'none' : '1px solid var(--line)' }}>
+                      {/* 헤더 */}
+                      <div onClick={() => setOpenIdx(isOpen ? null : i)} style={{
+                        display: 'grid',
+                        gridTemplateColumns: isMobile ? '1fr auto' : '200px 1fr 160px auto',
+                        gap: isMobile ? 0 : 0,
+                        padding: '18px 24px',
+                        cursor: 'pointer',
+                        alignItems: 'center',
+                        userSelect: 'none',
+                        transition: 'background 0.15s',
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.background = 'var(--ivory)'}
+                      onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                        {isMobile ? (
+                          <>
+                            <div>
+                              <div style={{ fontFamily: 'var(--sans)', fontSize: 13, fontWeight: 500, color: 'var(--muted)', letterSpacing: '0.01em', marginBottom: 4 }}>
+                                2026. {parseInt(m,10).toString().padStart(2,'0')}. {parseInt(d,10).toString().padStart(2,'0')}. · {row.kind === 'special' ? '' : '매주 '}{dow}요일 {row.time}
+                              </div>
+                              <div style={{ fontFamily: 'var(--sans)', fontSize: 15, fontWeight: 600, color: row.kind === 'special' ? 'var(--accent)' : 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.4 }}>{row.topic}</div>
+                            </div>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transition: 'transform 0.2s', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0, marginLeft: 12 }}>
+                              <path d="M3 6l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </>
+                        ) : (
+                          <>
+                            <div style={{ fontFamily: 'var(--sans)', fontSize: 13, fontWeight: 500, color: 'var(--ink)', letterSpacing: '0.01em' }}>
+                              2026. {parseInt(m,10).toString().padStart(2,'0')}. {parseInt(d,10).toString().padStart(2,'0')}.
+                              <span style={{ color: 'var(--muted)', marginLeft: 8 }}>{row.kind === 'special' ? '(특강)' : `(총 ${row.weeks}주)`}</span>
+                            </div>
+                            <div style={{ fontFamily: 'var(--sans)', fontSize: 15, fontWeight: 600, color: row.kind === 'special' ? 'var(--accent)' : 'var(--ink)', letterSpacing: '-0.01em' }}>{row.topic}</div>
+                            <div style={{ fontFamily: 'var(--sans)', fontSize: 13, fontWeight: 500, color: 'var(--ink)', letterSpacing: '0.01em' }}>{row.kind === 'special' ? '' : '매주 '}{dow}요일 {row.time}</div>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transition: 'transform 0.2s', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', marginLeft: 8 }}>
+                              <path d="M3 6l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </>
+                        )}
+                      </div>
+
+                      {/* 펼쳐진 상세 */}
+                      {isOpen && (
+                        <div style={{ padding: '28px 32px 32px', borderTop: '1px solid var(--line)' }}>
+                          <div style={{ fontFamily: 'var(--sans)', fontSize: 15, lineHeight: 1.9, letterSpacing: '-0.01em', color: 'var(--ink-soft)', marginBottom: 28 }}>{row.detail}</div>
+                          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                            <a href="#catalog" style={{
+                              display: 'inline-block',
+                              padding: '11px 28px',
+                              background: 'transparent',
+                              color: 'var(--ink)',
+                              border: '1px solid var(--ink)',
+                              fontFamily: 'var(--sans)', fontSize: 13, fontWeight: 600,
+                              letterSpacing: '-0.01em', lineHeight: 1,
+                              borderRadius: 9999, textDecoration: 'none',
+                              transition: 'opacity 0.15s'
+                            }}
+                            onMouseEnter={e => e.currentTarget.style.opacity = '0.6'}
+                            onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
+                              자세히 보기
+                            </a>
+                            <a href="#cta" style={{
+                              display: 'inline-block',
+                              padding: '11px 28px',
+                              background: 'var(--ink)',
+                              color: 'var(--paper)',
+                              fontFamily: 'var(--sans)', fontSize: 13, fontWeight: 600,
+                              letterSpacing: '-0.01em', lineHeight: 1,
+                              borderRadius: 9999, textDecoration: 'none',
+                              transition: 'opacity 0.15s'
+                            }}
+                            onMouseEnter={e => e.currentTarget.style.opacity = '0.75'}
+                            onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
+                              수강신청
+                            </a>
+                          </div>
+                        </div>
+                      )}
+                    </div>);
+              })}
+              </div>
+            }
+          </div>
+
           <MonthCalendar
             title={activeMonth === 5 ? '6월' : '7월'}
             cells={activeCells}
             tabs={
             <div style={{ display: 'inline-flex', border: '1px solid var(--ink)', borderRadius: 9999, overflow: 'hidden', flexShrink: 0 }}>
                 {[[5, '6월'], [6, '7월']].map(([m, l]) =>
-              <button key={m} onClick={() => setActiveMonth(m)} style={{
+              <button key={m} onClick={() => { setActiveMonth(m); setOpenIdx(null); }} style={{
                 padding: '8px 20px',
                 fontFamily: 'var(--sans)', fontSize: 12, fontWeight: 600, letterSpacing: '-0.01em',
                 background: activeMonth === m ? 'var(--ink)' : 'transparent',
@@ -446,48 +596,6 @@ function Schedule() {
               )}
               </div>
             } />
-
-          <div style={{ border: '1px solid var(--ink)', background: 'var(--paper)', overflowX: isMobile ? 'auto' : 'visible' }}>
-            <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--ink)', minWidth: isMobile ? 480 : 'auto' }}>
-              <div style={{ fontFamily: 'var(--sans)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.0194em', color: 'var(--ink)', lineHeight: 1.364 }}>
-                {activeMonth === 5 ? '6월' : '7월'} 강의 목록
-              </div>
-            </div>
-
-            {data.length === 0 ?
-            <div style={{ padding: '48px 24px', textAlign: 'center', fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.385, letterSpacing: '0.0194em', color: 'var(--muted)' }}>
-                이 달에 예정된 강의가 없습니다.
-              </div> :
-
-            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '160px 1fr 120px' : '220px 1fr 140px', minWidth: isMobile ? 480 : 'auto' }}>
-                <div style={{ padding: '14px 24px', borderBottom: '1px solid var(--ink)', fontFamily: 'var(--sans)', fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', color: 'var(--muted)', textTransform: 'uppercase', borderRight: '1px solid var(--line)' }}>개강 날짜</div>
-                <div style={{ padding: '14px 24px', borderBottom: '1px solid var(--ink)', fontFamily: 'var(--sans)', fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', color: 'var(--muted)', textTransform: 'uppercase', borderRight: '1px solid var(--line)' }}>강의명</div>
-                <div style={{ padding: '14px 24px', borderBottom: '1px solid var(--ink)', fontFamily: 'var(--sans)', fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', color: 'var(--muted)', textTransform: 'uppercase' }}>시간</div>
-
-                {data.map((row, i) => {
-                const [, m, d] = row.date.split('-');
-                const dow = weekdays[new Date(row.date).getDay()];
-                const isLast = i === data.length - 1;
-                const cellStyle = { padding: '18px 24px', borderBottom: isLast ? 'none' : '1px solid var(--line)', borderRight: '1px solid var(--line)', alignItems: 'center', display: 'flex' };
-                return (
-                  <React.Fragment key={i}>
-                      <div style={cellStyle}>
-                        <div style={{ fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.385, fontWeight: 500, color: 'var(--ink)', letterSpacing: '0.0194em' }}>
-                          2026. {parseInt(m, 10).toString().padStart(2, '0')}. {parseInt(d, 10).toString().padStart(2, '0')}.
-                          <span style={{ color: 'var(--muted)', marginLeft: 8, fontWeight: 500 }}>(총 {row.weeks}주)</span>
-                        </div>
-                      </div>
-                      <div style={cellStyle}>
-                        <span style={{ fontFamily: 'var(--sans)', fontSize: isMobile ? 13 : 15, fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.45, color: 'var(--ink)' }}>{row.topic}</span>
-                      </div>
-                      <div style={{ ...cellStyle, borderRight: 'none' }}>
-                        <span style={{ fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.385, fontWeight: 500, color: 'var(--ink)', letterSpacing: '0.0194em' }}>매주 {dow}요일 {row.time}</span>
-                      </div>
-                    </React.Fragment>);
-              })}
-              </div>
-            }
-          </div>
         </div>
       </Container>
     </section>);
