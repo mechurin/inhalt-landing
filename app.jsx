@@ -168,7 +168,7 @@ function Features() {
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 40 : 56 }}>
           {items.map((it, i) =>
           <div key={i} style={{ padding: '8px 0', display: 'flex', flexDirection: 'column', gap: 24 }}>
-              <div style={{ color: 'var(--muted)' }}>{it.icon}</div>
+              <div style={{ color: '#111111' }}>{it.icon}</div>
               <h3 style={{ fontFamily: 'var(--sans)', fontWeight: 700, fontSize: 22, lineHeight: 1.364, letterSpacing: '-0.02em', color: 'var(--ink)' }}>
                 {it.title}
               </h3>
@@ -528,7 +528,7 @@ function Reviews() {
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 48 }}>
-          <a href="#" style={{
+          <a href="https://blog.naver.com/radiognod/224247972656" target="_blank" rel="noopener noreferrer" style={{
             display: 'inline-flex', alignItems: 'center', gap: 10,
             padding: '14px 28px', background: 'transparent', color: 'var(--ink)',
             fontFamily: 'var(--sans)', fontSize: 14, fontWeight: 500,
@@ -652,20 +652,20 @@ function Footer() {
           </div>
           <ul style={{ listStyle: 'none', display: 'flex', gap: 12, padding: 0, margin: 0 }}>
             {[
-            { name: 'Instagram', href: '#', svg:
+            { name: 'Instagram', href: 'https://www.instagram.com/inhalt.lecture/', svg:
               <svg width="18" height="18" viewBox="0 0 512 512" fill="none" stroke="currentColor" strokeWidth="40" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M 376,40 H 136 C 83.07,40 40,83.07 40,136 v 240 c 0,52.93 43.07,96 96,96 h 240 c 52.93,0 96,-43.07 96,-96 V 136 C 472,83.07 428.93,40 376,40 Z" />
                   <circle cx="256" cy="256" r="93" />
                   <circle cx="388.33" cy="123.67" r="25" fill="currentColor" stroke="none" />
                 </svg>
             },
-            { name: 'Naver Blog', href: '#', svg:
+            { name: 'Naver Blog', href: 'https://blog.naver.com/radiognod', svg:
               <svg width="18" height="18" viewBox="0 0 924.43 1000" fill="currentColor">
                   <path d="M344.06 286.98c-70.27 0-135.39 22.03-188.86 59.55V70.18H0v858.3h155.2v-42.62c53.47 37.51 118.59 59.55 188.86 59.55 181.82 0 329.21-147.39 329.21-329.21s-147.4-329.22-329.21-329.22zm-14.78 514.64c-99.13 0-179.49-83.08-179.49-185.56S230.15 430.5 329.28 430.5s179.49 83.08 179.49 185.56-80.36 185.56-179.49 185.56zM862.35 0h62.08v1000h-62.08z" />
                 </svg>
             }].map((s) =>
             <li key={s.name} style={{ listStyle: 'none' }}>
-                <a href={s.href} aria-label={s.name} style={{
+                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name} style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 width: 38, height: 38, border: '1px solid #3A3528', borderRadius: 9999,
                 color: 'var(--paper)', transition: 'background 0.15s, color 0.15s'
