@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Inhalt — 강의 랜딩</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" crossorigin="anonymous">
+
+<meta name="ext-resource-dependency" content="assets/logo_black.svg" data-resource-id="logoBlack" />
+<meta name="ext-resource-dependency" content="assets/logo_outline.svg" data-resource-id="logoOutline" />
+<meta name="ext-resource-dependency" content="assets/logo_simbol.svg" data-resource-id="logoSimbol" />
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<style>
+  :root {
+    --ivory: #F9FAFB;
+    --ivory-2: #F0F2F5;
+    --paper: #FFFFFF;
+    --ink: #111111;
+    --ink-2: #1A1A1A;
+    --ink-soft: #333333;
+    --muted: #777777;
+    --line: #E5E3DC;
+    --line-dark: #2E2A20;
+    --accent: #CC5500;
+    --accent-2: #E87A2E;
+    --accent-ink: #FFFFFF;
+    --serif: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+    --display: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+    --sans: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+    --mono: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  }
+
+  /* Type system */
+  .t-display-1 { font-size: 56px; line-height: 1.286; letter-spacing: -0.0319em; }
+  .t-display-2 { font-size: 40px; line-height: 1.3;   letter-spacing: -0.0282em; }
+  .t-title-1   { font-size: 36px; line-height: 1.334; letter-spacing: -0.027em; }
+  .t-title-2   { font-size: 28px; line-height: 1.358; letter-spacing: -0.0236em; }
+  .t-title-3   { font-size: 24px; line-height: 1.334; letter-spacing: -0.023em; }
+  .t-heading-1 { font-size: 22px; line-height: 1.364; letter-spacing: -0.0194em; }
+  .t-heading-2 { font-size: 20px; line-height: 1.4;   letter-spacing: -0.012em; }
+  .t-headline-1 { font-size: 18px; line-height: 1.445; letter-spacing: -0.002em; }
+  .t-headline-2 { font-size: 17px; line-height: 1.412; letter-spacing: 0em; }
+  .t-body-1     { font-size: 16px; line-height: 1.5;   letter-spacing: 0.0057em; }
+  .t-body-1r    { font-size: 16px; line-height: 1.625; letter-spacing: 0.0057em; }
+  .t-body-2     { font-size: 15px; line-height: 1.467; letter-spacing: 0.0096em; }
+  .t-body-2r    { font-size: 15px; line-height: 1.6;   letter-spacing: 0.0096em; }
+  .t-label-1    { font-size: 14px; line-height: 1.429; letter-spacing: 0.0145em; }
+  .t-label-1r   { font-size: 14px; line-height: 1.571; letter-spacing: 0.0145em; }
+  .t-label-2    { font-size: 13px; line-height: 1.385; letter-spacing: 0.0194em; }
+  .t-caption-1  { font-size: 12px; line-height: 1.334; letter-spacing: 0.0252em; }
+  .t-caption-2  { font-size: 11px; line-height: 1.273; letter-spacing: 0.0311em; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--ivory); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; letter-spacing: -0.011em; }
+  * { letter-spacing: inherit; }
+  body { overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; border: none; cursor: pointer; background: none; color: inherit; }
+
+  .mono { font-family: var(--mono); font-feature-settings: "tnum" 1; }
+  .serif { font-family: var(--serif); }
+  .display { font-family: var(--display); }
+
+  /* Placeholder image blocks */
+  .ph {
+    position: relative;
+    background:
+      repeating-linear-gradient(135deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 10px),
+      var(--ivory-2);
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--muted);
+    overflow: hidden;
+  }
+  .ph.dark {
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 10px),
+      #1A1815;
+    border-color: #2A2620;
+    color: #6B6558;
+  }
+
+  #root { min-height: 100vh; }
+
+  /* Tweaks panel */
+  .tweaks {
+    position: fixed; right: 20px; bottom: 20px;
+    background: var(--ink); color: var(--paper);
+    border-radius: 14px; padding: 18px 20px;
+    font-family: var(--sans); font-size: 12px;
+    width: 280px; z-index: 9999;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    display: none;
+  }
+  .tweaks.open { display: block; }
+  .tweaks h4 { font-family: var(--sans); font-size: 18px; font-weight: 600; margin-bottom: 14px; letter-spacing: -0.01em; }
+  .tweaks .row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+  .tweaks label { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #999; }
+  .tweaks .seg { display: flex; background: #222; border-radius: 8px; padding: 3px; }
+  .tweaks .seg button { flex: 1; padding: 7px 8px; border-radius: 6px; font-size: 11px; color: #aaa; }
+  .tweaks .seg button.active { background: var(--paper); color: var(--ink); }
+
+  @media print { .tweaks { display: none !important; } }
+</style>
+</head>
+<body>
+  <template id="__bundler_thumbnail" data-bg-color="#F9FAFB">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="800" fill="#F9FAFB"/>
+      <text x="600" y="440" text-anchor="middle" font-family="-apple-system, SUIT, sans-serif" font-weight="700" font-size="140" fill="#111111" letter-spacing="-6">Inhalt</text>
+      <text x="600" y="500" text-anchor="middle" font-family="-apple-system, SUIT, sans-serif" font-weight="500" font-size="22" fill="#CC5500" letter-spacing="6">LOADING</text>
+    </svg>
+  </template>
+  <div id="root"></div>
+
+  <div class="tweaks" id="tweaks-panel">
+    <h4>Tweaks</h4>
+    <div class="row">
+      <label>Hero layout</label>
+      <div class="seg" data-group="hero">
+        <button data-value="logo">Logo mark</button>
+        <button data-value="type">Type hero</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>Palette</label>
+      <div class="seg" data-group="palette">
+        <button data-value="ivory">Ivory</button>
+        <button data-value="paper">Paper</button>
+        <button data-value="sand">Sand</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>Section numbering</label>
+      <div class="seg" data-group="numbering">
+        <button data-value="on">On</button>
+        <button data-value="off">Off</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>Mode</label>
+      <div class="seg" data-group="mode">
+        <button data-value="light">Light</button>
+        <button data-value="dark">Dark</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.__resources = {
+      logoBlack:   'assets/logo_black.svg',
+      logoOutline: 'assets/logo_outline.svg',
+      logoSimbol:  'assets/logo_simbol.svg',
+    };
+  </script>
+
+  <script>
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "hero": "logo",
+      "palette": "ivory",
+      "numbering": "off",
+      "mode": "light"
+    }/*EDITMODE-END*/;
+    window.__TWEAKS__ = { ...TWEAK_DEFAULTS };
+  </script>
+
+  <script type="text/babel" data-presets="env,react" src="app.jsx"></script>
+
+  <script>
+    // Tweak wiring
+    (function(){
+      const panel = document.getElementById('tweaks-panel');
+      function applyPalette(v){
+        const root = document.documentElement;
+        if (v === 'ivory') { root.style.setProperty('--ivory', '#F9FAFB'); root.style.setProperty('--paper', '#FFFFFF'); root.style.setProperty('--ivory-2', '#F0F2F5'); }
+        if (v === 'paper') { root.style.setProperty('--ivory', '#FFFFFF'); root.style.setProperty('--paper', '#FAFAF7'); root.style.setProperty('--ivory-2', '#F0EFEA'); }
+        if (v === 'sand')  { root.style.setProperty('--ivory', '#F5F2EA'); root.style.setProperty('--paper', '#FFFFFF'); root.style.setProperty('--ivory-2', '#EAE6DB'); }
+      }
+      function applyMode(v){
+        if (v === 'dark') {
+          document.documentElement.style.setProperty('--ivory', '#15130F');
+          document.documentElement.style.setProperty('--paper', '#1C1A16');
+          document.documentElement.style.setProperty('--ivory-2', '#24221C');
+          document.documentElement.style.setProperty('--ink', '#F0EADD');
+          document.documentElement.style.setProperty('--ink-2', '#E8E2D3');
+          document.documentElement.style.setProperty('--ink-soft', '#CFC9BB');
+          document.documentElement.style.setProperty('--muted', '#8F897B');
+          document.documentElement.style.setProperty('--line', '#2E2A24');
+        } else {
+          document.documentElement.style.removeProperty('--ivory');
+          document.documentElement.style.removeProperty('--paper');
+          document.documentElement.style.removeProperty('--ivory-2');
+          document.documentElement.style.removeProperty('--ink');
+          document.documentElement.style.removeProperty('--ink-2');
+          document.documentElement.style.removeProperty('--ink-soft');
+          document.documentElement.style.removeProperty('--muted');
+          document.documentElement.style.removeProperty('--line');
+          applyPalette(window.__TWEAKS__.palette);
+        }
+      }
+      function applyAll(){
+        applyPalette(window.__TWEAKS__.palette);
+        applyMode(window.__TWEAKS__.mode);
+        document.documentElement.dataset.numbering = window.__TWEAKS__.numbering;
+        document.documentElement.dataset.hero = window.__TWEAKS__.hero;
+        // Update seg active states
+        panel.querySelectorAll('.seg').forEach(seg => {
+          const group = seg.dataset.group;
+          seg.querySelectorAll('button').forEach(b => {
+            b.classList.toggle('active', b.dataset.value === window.__TWEAKS__[group]);
+          });
+        });
+      }
+      panel.querySelectorAll('.seg button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const group = btn.parentElement.dataset.group;
+          const value = btn.dataset.value;
+          window.__TWEAKS__[group] = value;
+          applyAll();
+          window.parent.postMessage({type: '__edit_mode_set_keys', edits: { [group]: value }}, '*');
+        });
+      });
+      window.addEventListener('message', (e) => {
+        if (!e.data) return;
+        if (e.data.type === '__activate_edit_mode') panel.classList.add('open');
+        if (e.data.type === '__deactivate_edit_mode') panel.classList.remove('open');
+      });
+      window.parent.postMessage({type: '__edit_mode_available'}, '*');
+      applyAll();
+    })();
+  </script>
+</body>
+</html>
