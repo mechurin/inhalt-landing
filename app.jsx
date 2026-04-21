@@ -96,7 +96,7 @@ function Nav() {
       style={{ height: 20, width: 'auto', display: 'block' }} />
       {!isMobile &&
         <div style={{ display: 'flex', gap: 36, fontSize: 14, lineHeight: 1.429, letterSpacing: '0.0145em', fontWeight: 500, color: 'var(--ink)', whiteSpace: 'nowrap' }}>
-          {[['강의 소개', '#catalog'], ['강의일정', '#schedule'], ['수강후기', '#reviews'], ['강의신청', '#cta']].map(([l, h]) =>
+          {[['강의소개', '#catalog'], ['강의일정', '#schedule'], ['수강후기', '#reviews'], ['강의신청', '#cta']].map(([l, h]) =>
           <a key={l} href={h} style={{ transition: 'color 0.15s' }}
           onMouseEnter={(e) => e.currentTarget.style.color = 'var(--muted)'}
           onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ink)'}>
