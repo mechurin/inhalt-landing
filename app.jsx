@@ -124,7 +124,7 @@ function Nav() {
 function LogoMark() {
   const isMobile = useIsMobile();
   return (
-    <img src={window.__resources.logoOutline} alt="Inhalt"
+    <img src={window.__resources.logoHero} alt="Inhalt"
     style={{ width: isMobile ? '80vw' : 320, maxWidth: 420, height: 'auto', display: 'block' }} />);
 }
 
