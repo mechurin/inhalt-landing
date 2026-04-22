@@ -143,7 +143,7 @@ function Hero() {
       <LogoMark />
       <div style={{ marginTop: 56, maxWidth: 620 }}>
         <p style={{
-          fontFamily: 'var(--sans)', fontSize: isMobile ? 18 : 22, lineHeight: 1.7,
+          fontFamily: 'var(--sans)', fontSize: isMobile ? 20 : 24, lineHeight: 1.6,
           letterSpacing: '-0.02em', color: 'var(--ink)', fontWeight: 500
         }}>
           미학, 예술사, 그리고 예술철학을<br />
@@ -215,7 +215,7 @@ function Features() {
               <h3 style={{ fontFamily: 'var(--sans)', fontWeight: 700, fontSize: 22, lineHeight: 1.25, letterSpacing: '-0.03em', color: 'var(--paper)' }}>
                 {it.title}
               </h3>
-              <p style={{ fontSize: 14, lineHeight: 1.85, letterSpacing: '-0.01em', color: 'rgba(255,255,255,0.55)', fontWeight: 400 }}>{it.body}</p>
+              <p style={{ fontSize: 15, lineHeight: 1.85, letterSpacing: '-0.01em', color: 'rgba(255,255,255,0.55)', fontWeight: 400 }}>{it.body}</p>
             </div>
           )}
         </div>
@@ -274,12 +274,12 @@ function Catalog() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
               {regular.map((col, i) =>
               <div key={i}>
-                  <div style={{ fontFamily: 'var(--sans)', fontSize: 14, lineHeight: 1.429, letterSpacing: '0.0145em', fontWeight: 700, color: 'var(--ink)', marginBottom: 12, paddingBottom: 8, borderBottom: '1px solid var(--line)' }}>
+                  <div style={{ fontFamily: 'var(--sans)', fontSize: 15, lineHeight: 1.429, letterSpacing: '0.0145em', fontWeight: 700, color: 'var(--ink)', marginBottom: 12, paddingBottom: 8, borderBottom: '1px solid var(--line)' }}>
                     {col.k}
                   </div>
                   <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {col.v.map((v, j) =>
-                  <li key={j} style={{ fontFamily: 'var(--sans)', fontSize: 14, letterSpacing: '0.0145em', fontWeight: 400, lineHeight: 1.55, color: 'var(--ink-soft)' }}>
+                  <li key={j} style={{ fontFamily: 'var(--sans)', fontSize: 15, letterSpacing: '0.0145em', fontWeight: 400, lineHeight: 1.55, color: 'var(--ink-soft)' }}>
                         {v}
                       </li>
                   )}
@@ -303,7 +303,7 @@ function Catalog() {
             </div>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
               {special.map((v, i) =>
-              <li key={i} style={{ fontFamily: 'var(--sans)', fontSize: 14, letterSpacing: '0.0145em', fontWeight: 400, lineHeight: 1.55, color: 'var(--ink-soft)' }}>
+              <li key={i} style={{ fontFamily: 'var(--sans)', fontSize: 15, letterSpacing: '0.0145em', fontWeight: 400, lineHeight: 1.55, color: 'var(--ink-soft)' }}>
                   {v}
                 </li>
               )}
@@ -442,7 +442,7 @@ function Schedule() {
                           const badgeBg = e.kind === 'special' ? 'var(--accent)' : 'var(--ink)';
                           return badge ? (
                             <span key={k} style={{
-                              fontFamily: 'var(--sans)', fontSize: 10, fontWeight: 600,
+                              fontFamily: 'var(--sans)', fontSize: 12, fontWeight: 600,
                               lineHeight: 1, letterSpacing: '0.02em',
                               background: badgeBg, color: '#ffffff',
                               padding: '2px 5px', borderRadius: 3,
@@ -479,18 +479,8 @@ function Schedule() {
   return (
     <section id="schedule" style={{ background: '#f6f6f6', padding: isMobile ? '80px 16px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
       <Container>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40, flexWrap: 'wrap', gap: 24 }}>
-          <div>
-            <SectionLabel kor="강의 일정" />
-          </div>
-          <div style={{ display: 'inline-flex', gap: 20, fontSize: 12, lineHeight: 1.334, letterSpacing: '0.0252em', fontWeight: 500, color: 'var(--muted)', alignItems: 'center', flexWrap: 'nowrap' }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
-              <span style={{ width: 12, height: 12, background: 'var(--ink)', display: 'inline-block', flexShrink: 0 }} />정규강의
-            </span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
-              <span style={{ width: 12, height: 12, background: 'var(--accent)', display: 'inline-block', flexShrink: 0 }} />특별강의
-            </span>
-          </div>
+        <div style={{ marginBottom: 40 }}>
+          <SectionLabel kor="강의 일정" />
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
@@ -531,7 +521,7 @@ function Schedule() {
                           <>
                             <div>
                               <div style={{ fontFamily: 'var(--sans)', fontSize: 13, fontWeight: 500, color: 'var(--muted)', letterSpacing: '0.01em', marginBottom: 4 }}>
-                                2026. {parseInt(m,10).toString().padStart(2,'0')}. {parseInt(d,10).toString().padStart(2,'0')}. · {row.kind === 'special' ? '' : '매주 '}{dow}요일 {row.time}
+                                26.{m}.{d} · {row.kind === 'special' ? '' : '매주 '}{dow}요일 {row.time}
                               </div>
                               <div style={{ fontFamily: 'var(--sans)', fontSize: 15, fontWeight: 600, color: row.kind === 'special' ? 'var(--accent)' : 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.4 }}>{row.topic}</div>
                             </div>
@@ -542,7 +532,7 @@ function Schedule() {
                         ) : (
                           <>
                             <div style={{ fontFamily: 'var(--sans)', fontSize: 13, fontWeight: 500, color: 'var(--ink)', letterSpacing: '0.01em' }}>
-                              2026. {parseInt(m,10).toString().padStart(2,'0')}. {parseInt(d,10).toString().padStart(2,'0')}.
+                              26.{m}.{d}
                               <span style={{ color: 'var(--muted)', marginLeft: 8 }}>{row.kind === 'special' ? '(특강)' : `(총 ${row.weeks}주)`}</span>
                             </div>
                             <div style={{ fontFamily: 'var(--sans)', fontSize: 15, fontWeight: 600, color: row.kind === 'special' ? 'var(--accent)' : 'var(--ink)', letterSpacing: '-0.01em' }}>{row.topic}</div>
@@ -605,7 +595,7 @@ function Schedule() {
                 {[[5, '6월'], [6, '7월']].map(([m, l]) =>
               <button key={m} onClick={() => setCalendarMonth(m)} style={{
                 padding: '8px 20px',
-                fontFamily: 'var(--sans)', fontSize: 12, fontWeight: 600, letterSpacing: '-0.01em',
+                fontFamily: 'var(--sans)', fontSize: 13, fontWeight: 600, letterSpacing: '-0.01em',
                 background: calendarMonth === m ? 'var(--ink)' : 'transparent',
                 color: calendarMonth === m ? 'var(--paper)' : 'var(--ink)',
                 border: 'none', lineHeight: 1, cursor: 'pointer',
@@ -646,12 +636,12 @@ function Reviews() {
           onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--ink)'}
           onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--line)'}>
               <div style={{ width: 22, height: 28, marginBottom: 4, backgroundImage: `url(${window.__resources.logoSimbol})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'left center' }} />
-              <blockquote style={{ fontFamily: 'var(--sans)', fontSize: 14, lineHeight: 1.7, letterSpacing: '0.0194em', color: 'var(--ink-soft)', fontWeight: 400, flex: 1 }}>{r.quote}</blockquote>
+              <blockquote style={{ fontFamily: 'var(--sans)', fontSize: 15, lineHeight: 1.7, letterSpacing: '0.0194em', color: 'var(--ink-soft)', fontWeight: 400, flex: 1 }}>{r.quote}</blockquote>
               <figcaption style={{ paddingTop: 12, borderTop: '1px solid var(--line)', display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <div style={{ fontFamily: 'var(--sans)', fontSize: 11, lineHeight: 1.4, letterSpacing: '0.02em', color: 'var(--muted)', fontWeight: 400 }}>
+                <div style={{ fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.4, letterSpacing: '0.02em', color: 'var(--muted)', fontWeight: 400 }}>
                   {r.course} · {r.date} 수강
                 </div>
-                <div style={{ fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.334, letterSpacing: '0.0252em', fontWeight: 500, color: 'var(--ink)' }}>
+                <div style={{ fontFamily: 'var(--sans)', fontSize: 14, lineHeight: 1.334, letterSpacing: '0.0252em', fontWeight: 500, color: 'var(--ink)' }}>
                   {r.name} 수강생
                 </div>
               </figcaption>
