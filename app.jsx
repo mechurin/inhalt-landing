@@ -66,7 +66,7 @@ const SectionLabel = ({ kor }) =>
 const Container = ({ children, style, max = 1200 }) => {
   const isMobile = useIsMobile();
   return (
-    <div style={{ maxWidth: max, margin: '0 auto', padding: isMobile ? '0 24px' : '0 40px', ...style }}>
+    <div style={{ maxWidth: max, margin: '0 auto', padding: isMobile ? '0 16px' : '0 40px', ...style }}>
       {children}
     </div>
   );
@@ -85,7 +85,7 @@ function Nav() {
   return (
     <nav style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-      padding: isMobile ? '16px 24px' : '20px 40px',
+      padding: isMobile ? '16px 16px' : '20px 40px',
       background: scrolled ? 'rgba(255, 255, 255, 0.9)' : 'transparent',
       backdropFilter: scrolled ? 'blur(12px)' : 'none',
       borderBottom: scrolled ? '1px solid var(--line)' : '1px solid transparent',
@@ -134,7 +134,7 @@ function Hero() {
     <section style={{
       minHeight: '100vh', display: 'flex', flexDirection: 'column',
       justifyContent: 'center', alignItems: 'center', textAlign: 'center',
-      padding: isMobile ? '120px 24px 80px' : '160px 40px 100px', position: 'relative',
+      padding: isMobile ? '120px 16px 80px' : '160px 40px 100px', position: 'relative',
       background: `
         repeating-linear-gradient(to right,  rgba(17,17,17,0.07) 0, rgba(17,17,17,0.07) 1px, transparent 1px, transparent 32px),
         repeating-linear-gradient(to bottom, rgba(17,17,17,0.07) 0, rgba(17,17,17,0.07) 1px, transparent 1px, transparent 32px),
@@ -207,7 +207,7 @@ function Features() {
   }];
 
   return (
-    <section style={{ background: 'var(--ink)', color: 'var(--paper)', padding: isMobile ? '80px 24px' : '140px 40px', borderTop: '1px solid var(--line-dark)' }}>
+    <section style={{ background: 'var(--ink)', color: 'var(--paper)', padding: isMobile ? '80px 16px' : '140px 40px', borderTop: '1px solid var(--line-dark)' }}>
       <Container>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 40 : 56 }}>
           {items.map((it, i) =>
@@ -256,7 +256,7 @@ function Catalog() {
   '〈인상주의와 후기 인상주의: 현대미술의 문턱〉'];
 
   return (
-    <section id="catalog" style={{ background: 'var(--paper)', padding: isMobile ? '80px 24px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
+    <section id="catalog" style={{ background: 'var(--paper)', padding: isMobile ? '80px 16px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
       <Container>
         <SectionLabel kor="강의 소개" />
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 40 : 48 }}>
@@ -466,7 +466,7 @@ function Schedule() {
   }
 
   return (
-    <section id="schedule" style={{ background: 'var(--ivory)', padding: isMobile ? '80px 24px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
+    <section id="schedule" style={{ background: 'var(--ivory)', padding: isMobile ? '80px 16px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
       <Container>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40, flexWrap: 'wrap', gap: 24 }}>
           <div>
@@ -624,7 +624,7 @@ function Reviews() {
   { quote: '미술사의 방대한 흐름을 맥락 위주로 설명해주셔서 훨씬 체계적으로 정리되었습니다. 다음 수업도 기대됩니다.', name: '정O아' }];
 
   return (
-    <section id="reviews" style={{ background: 'var(--paper)', padding: isMobile ? '80px 24px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
+    <section id="reviews" style={{ background: 'var(--paper)', padding: isMobile ? '80px 16px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
       <Container>
         <SectionLabel kor="수강생 후기" />
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 12 }}>
@@ -673,7 +673,7 @@ function HowTo() {
   { n: '04', title: '수강 확정', body: 'ZOOM 강의 링크가 수업 전날 발송됩니다.' }];
 
   return (
-    <section style={{ background: 'var(--ivory)', padding: isMobile ? '80px 24px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
+    <section style={{ background: 'var(--ivory)', padding: isMobile ? '80px 16px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
       <Container>
         <SectionLabel kor="수강 신청 방법" />
         <div style={{
@@ -712,7 +712,7 @@ function HowTo() {
 function CTA() {
   const isMobile = useIsMobile();
   return (
-    <section id="cta" style={{ background: 'var(--ivory)', padding: isMobile ? '80px 24px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
+    <section id="cta" style={{ background: 'var(--ivory)', padding: isMobile ? '80px 16px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
       <Container style={{ textAlign: 'center' }}>
         <h2 style={{
           fontFamily: 'var(--sans)', fontWeight: 700,
@@ -762,7 +762,7 @@ function CTA() {
 function Footer() {
   const isMobile = useIsMobile();
   return (
-    <footer style={{ background: 'var(--ink)', color: 'var(--paper)', padding: isMobile ? '40px 24px 24px' : '40px 40px 28px' }}>
+    <footer style={{ background: 'var(--ink)', color: 'var(--paper)', padding: isMobile ? '40px 16px 16px' : '40px 40px 28px' }}>
       <Container>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 32, marginBottom: 28, flexWrap: 'wrap', alignItems: 'flex-end' }}>
           <div>
