@@ -209,7 +209,6 @@ function Features() {
   return (
     <section style={{ background: 'var(--ink)', color: 'var(--paper)', padding: isMobile ? '80px 24px' : '140px 40px', borderTop: '1px solid var(--line-dark)' }}>
       <Container>
-        <SectionLabel kor="Inhalt를 선택해야 할 이유" />
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 40 : 56 }}>
           {items.map((it, i) =>
           <div key={i} style={{ padding: '8px 0', display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -758,7 +757,7 @@ function Footer() {
       <Container>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 32, marginBottom: 28, flexWrap: 'wrap', alignItems: 'flex-end' }}>
           <div>
-            <p style={{ fontSize: 18, lineHeight: 1.5, letterSpacing: '-0.01em', maxWidth: 560, color: '#FFFFFF', fontWeight: 500, margin: 0 }}>미학, 예술사, 예술철학을 일상의 언어로 강의합니다.</p>
+            <p style={{ fontSize: 18, lineHeight: 1.5, letterSpacing: '-0.01em', maxWidth: 560, color: '#FFFFFF', fontWeight: 500, margin: 0 }}>이미 도래한 예술과 장차 도래할 예술을 위한 지식을 일상의 언어로 전달합니다.</p>
           </div>
           <ul style={{ listStyle: 'none', display: 'flex', gap: 12, padding: 0, margin: 0 }}>
             {[
