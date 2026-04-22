@@ -20,11 +20,10 @@ function Tooltip({ label, children }) {
     <>
       <div ref={ref}
         onMouseEnter={() => {
-          if (ref.current && ref.current.scrollWidth > ref.current.clientWidth)
-            setRect(ref.current.getBoundingClientRect());
+          if (ref.current) setRect(ref.current.getBoundingClientRect());
         }}
         onMouseLeave={() => setRect(null)}
-        style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', cursor: 'default' }}>
+        style={{ cursor: 'default' }}>
         {children}
       </div>
       {rect && ReactDOM.createPortal(
@@ -412,7 +411,7 @@ function Schedule() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', borderBottom: '1px solid var(--line)' }}>
             {weekdays.map((w, i) => <div key={i} style={{
               padding: '10px 8px', textAlign: 'center',
-              fontFamily: 'var(--sans)', fontSize: 11, lineHeight: 1.273, fontWeight: 500,
+              fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.273, fontWeight: 500,
               letterSpacing: '0.0311em', color: i === 0 ? '#C44' : 'var(--muted)',
               borderRight: i === 6 ? 'none' : '1px solid var(--line)'
             }}>{w}</div>
@@ -426,31 +425,45 @@ function Schedule() {
               const muted = c && c.muted;
               return (
                 <div key={i} style={{
-                  height: 108, padding: '8px 8px 6px',
+                  height: 130, padding: '8px 8px 6px',
                   borderRight: i % 7 === 6 ? 'none' : '1px solid var(--line)',
                   borderBottom: isLastRow ? 'none' : '1px solid var(--line)',
                   background: '#ffffff', color: 'var(--ink)',
-                  display: 'flex', flexDirection: 'column', gap: 4, overflow: 'hidden'
+                  display: 'flex', flexDirection: 'column', gap: 4, overflow: 'hidden',
                 }}>
                   {c &&
                   <>
-                      <div style={{ fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.385, letterSpacing: '0.0194em', fontWeight: 500, color: muted ? '#C9C6BF' : isSun ? '#C44' : 'var(--ink)' }}>{c.d}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
+                        <span style={{ fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.385, letterSpacing: '0.0194em', fontWeight: 500, color: muted ? '#C9C6BF' : isSun ? '#C44' : 'var(--ink)' }}>{c.d}</span>
+                        {ev && ev.map((e, k) => {
+                          const isFirst = e.weekIndex === 0;
+                          const isLast = e.weekIndex === e.weeks - 1;
+                          const badge = e.kind === 'special' ? '특강' : isFirst ? '개강' : isLast ? '종강' : null;
+                          const badgeBg = e.kind === 'special' ? 'var(--accent)' : 'var(--ink)';
+                          return badge ? (
+                            <span key={k} style={{
+                              fontFamily: 'var(--sans)', fontSize: 10, fontWeight: 600,
+                              lineHeight: 1, letterSpacing: '0.02em',
+                              background: badgeBg, color: '#ffffff',
+                              padding: '2px 5px', borderRadius: 3,
+                            }}>{badge}</span>
+                          ) : null;
+                        })}
+                      </div>
                       {ev && ev.map((e, k) => {
                         const weekNum = e.weekIndex + 1;
+                        const shortTopic = e.topic.includes(':') ? e.topic.split(':')[0].trim() : e.topic;
+                        const displayText = `${shortTopic} ${weekNum}주차`;
                         const isFirst = e.weekIndex === 0;
                         const isLast = e.weekIndex === e.weeks - 1;
-                        const suffix = e.weeks === 1 ? ' (단강)' : isFirst ? ' (개강)' : isLast ? ' (종강)' : '';
-                        const shortTopic = e.topic.includes(':') ? e.topic.split(':')[0].trim() : e.topic;
-                        const displayText = `${shortTopic} ${weekNum}주차${suffix}`;
+                        const suffix = e.kind === 'special' ? '' : isFirst ? ' (개강)' : isLast ? ' (종강)' : '';
                         const fullLabel = `${e.topic} ${weekNum}주차${suffix}`;
                         return (
-                          <Tooltip key={k} label={fullLabel}>
-                            <span style={{
-                              fontFamily: 'var(--sans)', fontSize: 11, fontWeight: 500,
-                              lineHeight: 1.35, letterSpacing: '-0.01em',
-                              color: e.kind === 'special' ? 'var(--accent)' : 'var(--ink)',
-                            }}>{displayText}</span>
-                          </Tooltip>
+                          <span key={k} style={{
+                            fontFamily: 'var(--sans)', fontSize: 13, fontWeight: 500,
+                            lineHeight: 1.35, letterSpacing: '-0.01em',
+                            color: 'var(--ink)',
+                          }}>{displayText}</span>
                         );
                       })}
                     </>
