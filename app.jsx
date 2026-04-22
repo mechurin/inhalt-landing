@@ -639,7 +639,7 @@ function Reviews() {
                   {r.course} · {r.date} 수강
                 </div>
                 <div style={{ fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.334, letterSpacing: '0.0252em', fontWeight: 500, color: 'var(--ink)' }}>
-                  — {r.name} 수강생
+                  {r.name} 수강생
                 </div>
               </figcaption>
             </figure>
