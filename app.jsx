@@ -437,15 +437,24 @@ function Schedule() {
                   {c &&
                   <>
                       <div style={{ fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.385, letterSpacing: '0.0194em', fontWeight: 500, color: muted ? '#C9C6BF' : isSun ? '#C44' : 'var(--ink)' }}>{c.d}</div>
-                      {ev && ev.map((e, k) =>
-                    <Tooltip key={k} label={e.topic}>
-                      <span style={{
-                        fontFamily: 'var(--sans)', fontSize: 11, fontWeight: 500,
-                        lineHeight: 1.35, letterSpacing: '-0.01em',
-                        color: e.kind === 'special' ? 'var(--accent)' : 'var(--ink)',
-                      }}>{e.topic}</span>
-                    </Tooltip>
-                    )}
+                      {ev && ev.map((e, k) => {
+                        const weekNum = e.weekIndex + 1;
+                        const isFirst = e.weekIndex === 0;
+                        const isLast = e.weekIndex === e.weeks - 1;
+                        const suffix = e.weeks === 1 ? ' (단강)' : isFirst ? ' (개강)' : isLast ? ' (종강)' : '';
+                        const shortTopic = e.topic.includes(':') ? e.topic.split(':')[0].trim() : e.topic;
+                        const displayText = `${shortTopic} ${weekNum}주차${suffix}`;
+                        const fullLabel = `${e.topic} ${weekNum}주차${suffix}`;
+                        return (
+                          <Tooltip key={k} label={fullLabel}>
+                            <span style={{
+                              fontFamily: 'var(--sans)', fontSize: 11, fontWeight: 500,
+                              lineHeight: 1.35, letterSpacing: '-0.01em',
+                              color: e.kind === 'special' ? 'var(--accent)' : 'var(--ink)',
+                            }}>{displayText}</span>
+                          </Tooltip>
+                        );
+                      })}
                     </>
                   }
                 </div>);
