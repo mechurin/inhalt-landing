@@ -351,7 +351,7 @@ function Schedule() {
     return cells;
   }
 
-  const [activeMonth, setActiveMonth] = useState(5);
+  const [calendarMonth, setCalendarMonth] = useState(5);
   const [openIdx, setOpenIdx] = useState(null);
 
   const juneCourses = [
@@ -375,7 +375,8 @@ function Schedule() {
   { date: '2026-07-08', topic: '예술철학: 개념과 쟁점을 중심으로', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>이 강의는 <strong>예술의 정의, 예술적 가치, 미적 경험</strong>이라는 세 가지 큰 주제를 중심으로 현대 예술철학의 핵심 논쟁들을 체계적으로 살펴봅니다. 아서 단토의 예술종말론, 조지 디키의 제도론, 먼로 비어즐리의 의도론 등 20세기 예술철학의 주요 이론들을 비교합니다.</p><p style={{marginBottom:14}}>'예술이란 무엇인가'라는 물음에 다양한 철학자들이 어떻게 답해왔는지를 추적하면서, <strong>예술의 개념이 역사적으로 어떻게 변해왔는지</strong>를 이해합니다. 현대예술의 도발적인 사례들(뒤샹의 변기, 워홀의 브릴로 박스 등)이 이 논의에서 핵심 사례로 등장합니다.</p><p>예술철학 입문 강의를 먼저 들은 분들께 추천합니다. 총 5주 과정으로 진행됩니다.</p></> },
   { date: '2026-07-09', topic: '예술철학: 비평이론을 중심으로', kind: 'regular', weeks: 5, time: '20:20–22:00', detail: <><p style={{marginBottom:14}}>예술 작품을 어떻게 읽고 해석할 것인가의 문제는 20세기 내내 치열하게 논쟁되어 왔습니다. 이 강의는 <strong>형식주의, 마르크스주의, 정신분석, 페미니즘, 탈구조주의</strong> 비평 이론들을 각각의 방법론과 전제, 그리고 한계를 함께 검토합니다.</p><p style={{marginBottom:14}}>각 이론을 추상적으로 소개하는 데 그치지 않고, <strong>실제 미술 작품이나 문학 텍스트에 적용</strong>하면서 이론의 설명력과 맹점을 구체적으로 확인합니다. 롤랑 바르트의 '저자의 죽음', 로라 멀비의 '시각적 쾌락' 등 핵심 텍스트들을 함께 읽습니다.</p><p>비평에 관심 있는 분들을 위한 심화 강의입니다. 예술철학 입문 또는 개념 강의를 먼저 들으면 이해에 도움이 됩니다. 총 5주 과정으로 진행됩니다.</p></> }];
 
-  const data = (activeMonth === 5 ? juneCourses : julyCourses).slice().sort((a, b) => a.date.localeCompare(b.date));
+  // 강의 목록: 항상 6월 개강 강의 고정
+  const data = juneCourses.slice().sort((a, b) => a.date.localeCompare(b.date));
 
   function addDays(iso, n) {
     const [y, m, d] = iso.split('-').map(Number);
@@ -383,8 +384,9 @@ function Schedule() {
     dt.setDate(dt.getDate() + n);
     return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
   }
+  // byDate: 6월 강의의 전체 세션 (7월까지 이어지는 것 포함)
   const sessionsByDate = {};
-  for (const c of data) {
+  for (const c of juneCourses) {
     for (let w = 0; w < c.weeks; w++) {
       const iso = addDays(c.date, w * 7);
       if (!sessionsByDate[iso]) sessionsByDate[iso] = [];
@@ -393,7 +395,7 @@ function Schedule() {
   }
   const byDate = sessionsByDate;
   const months = { 5: buildMonth(2026, 5), 6: buildMonth(2026, 6) };
-  const activeCells = months[activeMonth];
+  const activeCells = months[calendarMonth];
   const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
 
   function MonthCalendar({ title, cells, tabs }) {
@@ -479,7 +481,7 @@ function Schedule() {
           <div style={{ border: '1px solid var(--ink)', background: 'var(--paper)', overflowX: isMobile ? 'auto' : 'visible' }}>
             <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--ink)', minWidth: isMobile ? 480 : 'auto' }}>
               <div style={{ fontFamily: 'var(--sans)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.0194em', color: 'var(--ink)', lineHeight: 1.364 }}>
-                이번 달 강의 목록
+                6월 강의 목록
               </div>
             </div>
 
@@ -580,16 +582,16 @@ function Schedule() {
           </div>
 
           <MonthCalendar
-            title={activeMonth === 5 ? '6월' : '7월'}
+            title={calendarMonth === 5 ? '6월' : '7월'}
             cells={activeCells}
             tabs={
             <div style={{ display: 'inline-flex', border: '1px solid var(--ink)', borderRadius: 9999, overflow: 'hidden', flexShrink: 0 }}>
                 {[[5, '6월'], [6, '7월']].map(([m, l]) =>
-              <button key={m} onClick={() => { setActiveMonth(m); setOpenIdx(null); }} style={{
+              <button key={m} onClick={() => setCalendarMonth(m)} style={{
                 padding: '8px 20px',
                 fontFamily: 'var(--sans)', fontSize: 12, fontWeight: 600, letterSpacing: '-0.01em',
-                background: activeMonth === m ? 'var(--ink)' : 'transparent',
-                color: activeMonth === m ? 'var(--paper)' : 'var(--ink)',
+                background: calendarMonth === m ? 'var(--ink)' : 'transparent',
+                color: calendarMonth === m ? 'var(--paper)' : 'var(--ink)',
                 border: 'none', lineHeight: 1, cursor: 'pointer',
                 transition: 'background 0.15s, color 0.15s'
               }}>{l}</button>
