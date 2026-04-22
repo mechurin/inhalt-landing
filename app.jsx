@@ -271,7 +271,6 @@ function Catalog() {
               <h3 style={{ fontFamily: 'var(--sans)', fontSize: 20, lineHeight: 1.4, fontWeight: 700, letterSpacing: '-0.02em', whiteSpace: 'nowrap' }}>
                 정규 강의
               </h3>
-              <span style={{ fontSize: 11, lineHeight: 1.273, fontWeight: 500, color: 'var(--muted)', letterSpacing: '0.1em' }}>정규강의에 대한 설명</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
               {regular.map((col, i) =>
@@ -302,7 +301,6 @@ function Catalog() {
               <h3 style={{ fontFamily: 'var(--sans)', fontSize: 20, lineHeight: 1.4, fontWeight: 700, letterSpacing: '-0.02em', whiteSpace: 'nowrap' }}>
                 특별 강의
               </h3>
-              <span style={{ fontSize: 11, lineHeight: 1.273, fontWeight: 500, color: 'var(--muted)', letterSpacing: '0.1em' }}>특별강의에 대한 설명</span>
             </div>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
               {special.map((v, i) =>
@@ -471,9 +469,6 @@ function Schedule() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40, flexWrap: 'wrap', gap: 24 }}>
           <div>
             <SectionLabel kor="강의 일정" />
-            <p style={{ fontSize: 15, lineHeight: 1.467, letterSpacing: '0.0096em', color: 'var(--ink-soft)', fontWeight: 400, marginTop: -32 }}>
-              강의일정은 매달 갱신됩니다.
-            </p>
           </div>
           <div style={{ display: 'inline-flex', gap: 20, fontSize: 12, lineHeight: 1.334, letterSpacing: '0.0252em', fontWeight: 500, color: 'var(--muted)', alignItems: 'center', flexWrap: 'nowrap' }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
