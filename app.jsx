@@ -397,7 +397,7 @@ function Schedule() {
 
   function MonthCalendar({ title, cells, tabs }) {
     return (
-      <div style={{ background: 'var(--paper)', border: '1px solid var(--ink)' }}>
+      <div style={{ background: '#ffffff', border: '1px solid var(--ink)' }}>
         <div style={{
           padding: '18px 24px', borderBottom: '1px solid var(--ink)',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16
@@ -429,7 +429,7 @@ function Schedule() {
                   height: 108, padding: '8px 8px 6px',
                   borderRight: i % 7 === 6 ? 'none' : '1px solid var(--line)',
                   borderBottom: isLastRow ? 'none' : '1px solid var(--line)',
-                  background: 'var(--paper)', color: 'var(--ink)',
+                  background: '#ffffff', color: 'var(--ink)',
                   display: 'flex', flexDirection: 'column', gap: 4, overflow: 'hidden'
                 }}>
                   {c &&
@@ -464,7 +464,7 @@ function Schedule() {
   }
 
   return (
-    <section id="schedule" style={{ background: 'var(--ivory)', padding: isMobile ? '80px 16px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
+    <section id="schedule" style={{ background: '#f6f6f6', padding: isMobile ? '80px 16px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
       <Container>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40, flexWrap: 'wrap', gap: 24 }}>
           <div>
@@ -481,7 +481,7 @@ function Schedule() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-          <div style={{ border: '1px solid var(--ink)', background: 'var(--paper)' }}>
+          <div style={{ border: '1px solid var(--ink)', background: '#ffffff' }}>
             <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--ink)' }}>
               <div style={{ fontFamily: 'var(--sans)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.0194em', color: 'var(--ink)', lineHeight: 1.364 }}>
                 6월 강의 목록
@@ -512,7 +512,7 @@ function Schedule() {
                         userSelect: 'none',
                         transition: 'background 0.15s',
                       }}
-                      onMouseEnter={e => e.currentTarget.style.background = 'var(--ivory)'}
+                      onMouseEnter={e => e.currentTarget.style.background = '#eeeeee'}
                       onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                         {isMobile ? (
                           <>
@@ -609,20 +609,21 @@ function Schedule() {
 /* ============ REVIEWS ============ */
 
 function Reviews() {
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(600);
+  const isTablet = useIsMobile(1000);
   const reviews = [
-  { quote: '일방적인 강의가 아니라 미학이 정말 일상의 언어로 들어오는 느낌을 받았습니다. 예술을 보는 눈이 탁 트인 것 같은 경험입니다.', name: '강O수' },
-  { quote: '비교 맥락이 풍부해 강사님과 대화가 있는 소통이 당연하게 느껴졌습니다. 매 수업 시간이 기다려지는 강의입니다.', name: '최O선' },
-  { quote: '미술사의 방대한 흐름을 맥락 위주로 설명해주셔서 훨씬 체계적으로 정리되었습니다. 강력 추천합니다.', name: '한O민' },
-  { quote: '미술사의 방대한 흐름을 맥락 위주로 설명해주셔서 훨씬 체계적으로 정리가 되었습니다. 다음 수업도 기대됩니다.', name: '박O연' },
-  { quote: '매달 공부할 때마다 달라지는 시각이 느껴집니다. 강의를 들을수록 예술이 이렇게 넓은 세계였다는 걸 실감합니다. 강력 추천합니다.', name: '이O현' },
-  { quote: '미술사의 방대한 흐름을 맥락 위주로 설명해주셔서 훨씬 체계적으로 정리되었습니다. 다음 수업도 기대됩니다.', name: '정O아' }];
+  { quote: '일방적인 강의가 아니라 미학이 정말 일상의 언어로 들어오는 느낌을 받았습니다. 칸트나 헤겔 같은 이름만 들어도 막막하던 개념들이 구체적인 작품과 연결되면서 비로소 이해가 됐어요. 예술을 보는 눈이 탁 트인 것 같은 경험이었습니다.', name: '강O수', course: '미학: 사상가들을 중심으로', date: '25.10.06' },
+  { quote: '단순히 지식을 전달하는 게 아니라 왜 이 작품이 그 시대에 나왔는지, 어떤 맥락에서 의미를 가지는지를 짚어주셔서 수업 내내 몰입이 됐습니다. 비교 맥락이 풍부해서 강사님과 주고받는 대화가 자연스럽게 이어졌고, 매 수업 시간이 기다려지는 강의였습니다.', name: '최O선', course: '서양미술사: 고대, 중세, 근대의 서양미술', date: '25.11.10' },
+  { quote: '미술사의 방대한 흐름을 연대순 나열이 아닌 맥락 위주로 풀어주셔서 훨씬 체계적으로 머릿속에 정리되었습니다. 강의가 끝난 후에도 미술관에 가면 작품을 보는 시선이 달라졌다는 걸 느낍니다. 예술에 관심 있는 분이라면 강력 추천합니다.', name: '한O민', course: '서양미술사: 고대, 중세, 근대의 서양미술', date: '25.12.08' },
+  { quote: '칸트 미학을 이렇게 쉽게 접근할 수 있을 거라고 생각 못 했습니다. 숭고와 아름다움의 차이, 취미 판단의 개념이 실제 예술 감상에 어떻게 연결되는지 명확하게 설명해주셔서 어렵게만 느껴지던 철학이 친근하게 다가왔습니다. 다음 수업도 기대됩니다.', name: '박O연', course: '칸트의 미학', date: '26.01.12' },
+  { quote: '매달 수업을 들을 때마다 예술을 바라보는 시각이 조금씩 달라지는 게 느껴집니다. 처음엔 그림 보는 취미 정도로 시작했는데, 강의를 들을수록 예술이 이렇게 넓은 세계였다는 걸 실감하게 됩니다. 헤겔의 정신 개념이 예술사와 이어지는 순간이 특히 인상 깊었습니다.', name: '이O현', course: '헤겔의 미학', date: '26.02.09' },
+  { quote: '예술철학이라고 하면 막연하게 어렵겠다 싶었는데, 실제 작품과 함께 설명해주시니 오히려 더 구체적으로 이해할 수 있었습니다. 강의 내내 "아, 이래서 이 작품이 이런 평가를 받는구나" 싶은 순간들이 계속 이어졌어요. 다음 수업도 꼭 들을 예정입니다.', name: '정O아', course: '예술철학: 사상가들을 중심으로', date: '26.03.10' }];
 
   return (
     <section id="reviews" style={{ background: 'var(--paper)', padding: isMobile ? '80px 16px' : '140px 40px', borderTop: '1px solid var(--line)' }}>
       <Container>
-        <SectionLabel kor="수강생 후기" />
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 12 }}>
+        <SectionLabel kor="수강 후기" />
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)', gap: 12 }}>
           {reviews.map((r, i) =>
           <figure key={i} style={{
             background: 'var(--paper)', border: '1px solid var(--line)',
@@ -633,8 +634,13 @@ function Reviews() {
           onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--line)'}>
               <div style={{ width: 22, height: 28, marginBottom: 4, backgroundImage: `url(${window.__resources.logoSimbol})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'left center' }} />
               <blockquote style={{ fontFamily: 'var(--sans)', fontSize: 14, lineHeight: 1.7, letterSpacing: '0.0194em', color: 'var(--ink-soft)', fontWeight: 400, flex: 1 }}>{r.quote}</blockquote>
-              <figcaption style={{ paddingTop: 12, borderTop: '1px solid var(--line)', fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.334, letterSpacing: '0.0252em', fontWeight: 500, color: 'var(--ink)' }}>
-                — {r.name} 수강생
+              <figcaption style={{ paddingTop: 12, borderTop: '1px solid var(--line)', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <div style={{ fontFamily: 'var(--sans)', fontSize: 11, lineHeight: 1.4, letterSpacing: '0.02em', color: 'var(--muted)', fontWeight: 400 }}>
+                  {r.course} · {r.date} 수강
+                </div>
+                <div style={{ fontFamily: 'var(--sans)', fontSize: 13, lineHeight: 1.334, letterSpacing: '0.0252em', fontWeight: 500, color: 'var(--ink)' }}>
+                  — {r.name} 수강생
+                </div>
               </figcaption>
             </figure>
           )}
