@@ -481,8 +481,8 @@ function Schedule() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-          <div style={{ border: '1px solid var(--ink)', background: 'var(--paper)', overflowX: isMobile ? 'auto' : 'visible' }}>
-            <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--ink)', minWidth: isMobile ? 480 : 'auto' }}>
+          <div style={{ border: '1px solid var(--ink)', background: 'var(--paper)' }}>
+            <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--ink)' }}>
               <div style={{ fontFamily: 'var(--sans)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.0194em', color: 'var(--ink)', lineHeight: 1.364 }}>
                 6월 강의 목록
               </div>
