@@ -175,29 +175,92 @@ function Hero() {
 
 /* ============ FEATURES ============ */
 
+function FeatureItem({ num, plain, bold, indent, delay }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.2 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} style={{
+      display: 'flex', alignItems: 'flex-start', gap: 40,
+      paddingLeft: indent,
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : 'translateY(32px)',
+      transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+    }}>
+      <div style={{
+        fontFamily: "'Lusitana', Georgia, serif",
+        fontWeight: 400,
+        fontSize: 130,
+        lineHeight: 1,
+        letterSpacing: '-1.6px',
+        color: '#fff',
+        flexShrink: 0,
+        userSelect: 'none',
+        marginTop: -8,
+      }}>{num}</div>
+      <p style={{
+        fontFamily: 'var(--sans)',
+        fontSize: 24,
+        lineHeight: '44px',
+        letterSpacing: '-0.5px',
+        color: '#fff',
+        fontWeight: 300,
+        maxWidth: 480,
+        paddingTop: 20,
+      }}>
+        {plain}<strong style={{ fontWeight: 600 }}>{bold}</strong>
+      </p>
+    </div>
+  );
+}
+
 function Features() {
   const isMobile = useIsMobile();
+
   const items = [
-  { num: '1', title: '전문가의 지식을 일상의 언어로', body: '현장에서 오랜도록 쌓아온 전문가의 시각으로, 어려운 개념도 일상의 언어로 풀어줍니다.' },
-  { num: '2', title: 'ZOOM을 통한 비대면 수업', body: 'ZOOM 비대면 강의로 이동 시간 없이, 지역에 구애받지 않고 바로 물을 수 있는 소통 환경을 제공합니다.' },
-  { num: '3', title: '무제한 녹화본 제공', body: '수업이 끝난 뒤에도 언제든 다시 들을 수 있도록 고화질 녹화본을 제공하여 복습과 보완학습을 돕습니다.' },
+    {
+      num: '1',
+      plain: '예술을 감상하고 이해하는 데 필요한 지식을 일상에서 ',
+      bold: '익숙하게 사용하는 편안한 어휘와 표현을 통해 전달합니다.',
+      indent: isMobile ? 0 : '0%',
+      delay: 0,
+    },
+    {
+      num: '2',
+      plain: '장소에 구애받지 않고 강의를 수강할 수 있도록, 인할트의 모든 강의는 ',
+      bold: 'ZOOM을 활용한 비대면 방식으로 진행됩니다.',
+      indent: isMobile ? 0 : '15%',
+      delay: 100,
+    },
+    {
+      num: '3',
+      plain: '강의의 녹화본은 필요에 따라 자유롭게 이용하실 수 있습니다. 따라서 ',
+      bold: '실시간 강의 일정에 크게 구애받지 않고 강의를 수강하실 수 있습니다.',
+      indent: isMobile ? 0 : '30%',
+      delay: 200,
+    },
   ];
 
   return (
     <section style={{ background: 'var(--ink)', color: 'var(--paper)', padding: isMobile ? '80px 24px' : '140px 40px', borderTop: '1px solid var(--line-dark)' }}>
-      <Container>
-        <SectionLabel kor="Inhalt를 선택해야 할 이유" />
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 48 : 56 }}>
-          {items.map((it, i) =>
-          <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-              <div style={{ fontFamily: 'var(--sans)', fontWeight: 700, fontSize: 56, lineHeight: 1, letterSpacing: '-0.04em', color: 'rgba(255,255,255,0.15)' }}>{it.num}</div>
-              <h3 style={{ fontFamily: 'var(--sans)', fontWeight: 700, fontSize: 22, lineHeight: 1.25, letterSpacing: '-0.03em', color: 'var(--paper)' }}>{it.title}</h3>
-              <p style={{ fontSize: 14, lineHeight: 1.85, letterSpacing: '-0.01em', color: 'rgba(255,255,255,0.55)', fontWeight: 400 }}>{it.body}</p>
-            </div>
-          )}
+      <Container max={1400}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 64 : 96 }}>
+          {items.map((it, i) => <FeatureItem key={i} {...it} />)}
         </div>
       </Container>
-    </section>);
+    </section>
+  );
 }
 
 /* ============ CATALOG ============ */
