@@ -63,7 +63,7 @@ const SectionLabel = ({ kor }) =>
   }}>{kor}</h2>
   </div>;
 
-const Container = ({ children, style, max = 1200 }) => {
+const Container = ({ children, style, max = 1120 }) => {
   const isMobile = useIsMobile();
   return (
     <div style={{ maxWidth: max, margin: '0 auto', padding: isMobile ? '0 24px' : '0 40px', ...style }}>
@@ -254,7 +254,7 @@ function Features() {
 
   return (
     <section style={{ background: 'var(--ink)', color: 'var(--paper)', padding: isMobile ? '80px 24px' : '140px 40px', borderTop: '1px solid var(--line-dark)' }}>
-      <Container max={1400}>
+      <Container>
         <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 64 : 96 }}>
           {items.map((it, i) => <FeatureItem key={i} {...it} />)}
         </div>
