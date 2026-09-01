@@ -420,12 +420,13 @@
       align-items: flex-start;
       width: max-content;
       gap: 24px;
+      --track-distance: 0px;
       animation: reviews-scroll 65s linear infinite;
     }
 
     @keyframes reviews-scroll {
       from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+      to   { transform: translateX(calc(-1 * var(--track-distance))); }
     }
 
     .review-card {
@@ -1219,10 +1220,23 @@
 
     /* ── Reviews infinite marquee (duplicate track for seamless loop) ─ */
     document.querySelectorAll('.reviews-track').forEach((track) => {
-      track.querySelectorAll(':scope > article').forEach((card) => {
+      const originals = [...track.querySelectorAll(':scope > article')];
+      originals.forEach((card) => {
         const clone = card.cloneNode(true);
         clone.setAttribute('aria-hidden', 'true');
         track.appendChild(clone);
+      });
+
+      const setDistance = () => {
+        const firstClone = track.children[originals.length];
+        track.style.setProperty('--track-distance', firstClone.offsetLeft + 'px');
+      };
+      setDistance();
+
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(setDistance, 150);
       });
     });
 
