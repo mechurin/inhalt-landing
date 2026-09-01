@@ -396,6 +396,19 @@
       padding: 140px 0;
     }
 
+    .reviews-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .reviews-head .section-label {
+      text-align: left;
+      margin-bottom: 0;
+    }
+
     .reviews-marquee {
       width: 100%;
       overflow: hidden;
@@ -473,12 +486,6 @@
       .review-card:hover .review-foot { border-top-color: rgba(255, 255, 255, 0.2); }
       .review-card:hover .review-meta { color: rgba(255, 255, 255, 0.8); }
       .review-card:hover .review-author { color: var(--white); }
-    }
-
-    .reviews-more {
-      display: flex;
-      justify-content: center;
-      margin-top: 0;
     }
 
     .pill-link {
@@ -932,7 +939,10 @@
   <!-- ── Reviews ───────────────────────────────────────────────── -->
   <section id="reviews">
     <div class="wrap">
-      <h2 class="section-label">수강후기</h2>
+      <div class="reviews-head">
+        <h2 class="section-label">수강후기</h2>
+        <a href="#" target="_blank" rel="noopener" class="pill-link">자세히 보기 →</a>
+      </div>
     </div>
     <div class="reviews-marquee">
       <div class="reviews-track">
@@ -1036,11 +1046,6 @@
           </div>
         </article>
 
-      </div>
-    </div>
-    <div class="wrap">
-      <div class="reviews-more">
-        <a href="#" target="_blank" rel="noopener" class="pill-link">자세히 보기 →</a>
       </div>
     </div>
   </section>
