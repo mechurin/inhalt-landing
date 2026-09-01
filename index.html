@@ -13,6 +13,16 @@
     /* ─── Reset & Variables ─────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    button {
+      appearance: none;
+      -webkit-appearance: none;
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      outline: none;
+    }
+
     :root {
       --black:      #121212;
       --white:      #ffffff;
@@ -106,6 +116,7 @@
       align-items: center;
       justify-content: center;
       gap: 56px;
+      min-height: 100vh;
       padding: 120px 24px;
       text-align: center;
       position: relative;
@@ -195,6 +206,14 @@
       align-items: center;
       gap: 48px;
       width: 100%;
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .feature-row.is-visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .feature-row.f-center { justify-content: center; }
@@ -246,12 +265,9 @@
     .accordion {
       background: var(--white);
       border: 1px solid var(--body);
-      border-radius: var(--r-pill);
-      padding: 21px 33px;
-      transition: border-radius 0.2s ease;
+      border-radius: var(--r-box);
+      padding: 16px 33px;
     }
-
-    .accordion[open] { border-radius: var(--r-box); }
 
     .accordion > summary {
       list-style: none;
@@ -259,8 +275,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 0;
+      padding: 16px 0;
     }
+
+    .accordion[open] > summary { padding: 20px 0; }
 
     .accordion > summary::-webkit-details-marker { display: none; }
 
@@ -279,6 +297,9 @@
     }
 
     .tab {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       font-family: var(--font);
       font-size: 15px;
       font-weight: 500;
@@ -293,7 +314,7 @@
       cursor: pointer;
       white-space: nowrap;
       flex-shrink: 0;
-      transition: all 0.15s;
+      transition: color 0.15s ease;
     }
 
     .tab.is-active { background: var(--black); color: var(--white); border-radius: var(--r-pill); padding: 10px 12px; }
@@ -311,7 +332,7 @@
       border-bottom: 1px solid var(--line);
     }
 
-    .cat-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .cat-item:last-child { border-bottom: none; padding-bottom: 20px; }
 
     .cat-item summary {
       list-style: none;
@@ -342,6 +363,20 @@
       color: var(--muted);
     }
 
+    .cat-item-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cat-item-badge {
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--faint);
+    }
+
     .cat-item-row {
       /* wrapper for non-expandable rows (no description available) */
       display: flex;
@@ -351,7 +386,7 @@
       border-bottom: 1px solid var(--line);
     }
 
-    .cat-item-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .cat-item-row:last-child { border-bottom: none; padding-bottom: 20px; }
 
     /* ─── Reviews ───────────────────────────────────────────────── */
     #reviews {
@@ -679,7 +714,7 @@
       <div class="accordion-list">
 
         <!-- 정규 강의 -->
-        <details class="accordion" open>
+        <details class="accordion">
           <summary>
             <div style="display:flex; align-items:center;">
               <span class="accordion-title">정규 강의</span>
@@ -693,29 +728,107 @@
           </summary>
           <div class="accordion-body">
             <div class="catalog-tabpanel is-active" data-panel="미학">
-              <div class="cat-item-row"><span class="cat-item-title">〈미학: 사상가들을 중심으로〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <div class="cat-item-row"><span class="cat-item-title">〈미학: 개념과 쟁점을 중심으로〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <div class="cat-item-row"><span class="cat-item-title">〈칸트의 미학〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <div class="cat-item-row"><span class="cat-item-title">〈헤겔의 미학〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <div class="cat-item-row"><span class="cat-item-title">〈벤야민의 미학〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈미학: 사상가들을 중심으로〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">미학의 핵심 주제인 미학적 속성, 미학적 대상, 미학적 태도를 주요 사상가들의 논의를 통해 살펴보는 입문 강의입니다. 플라톤에서 칸트, 헤겔, 니체까지 미학사의 흐름을 짚으며 미학의 기초를 다집니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈미학: 개념과 쟁점을 중심으로〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">재현, 표현, 형식, 제도 등 현대 미학의 핵심 개념들을 쟁점별로 정리합니다. 예술과 비예술의 경계, 예술 작품의 의미, 감상자의 경험이라는 물음을 중심으로 현대 미학의 논쟁 구도를 이해합니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈칸트의 미학〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">《판단력 비판》을 중심으로 취미 판단, 숭고, 미적 이념, 목적론의 개념들을 순서대로 살펴봅니다. "아름다움에 관한 판단은 어떻게 보편성을 주장할 수 있는가"라는 물음을 핵심으로 칸트 미학의 전체 구도를 파악합니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈헤겔의 미학〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">헤겔의 《미학 강의》를 바탕으로 예술이 상징적 형식에서 고전적 형식을 거쳐 낭만적 형식으로 발전해 나가는 역사적 도식을 분석합니다. 헤겔이 제기한 "예술의 종언" 테제를 집중적으로 검토합니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈벤야민의 미학〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">〈기술복제시대의 예술작품〉을 중심으로 아우라, 복제, 지각의 변화 개념을 꼼꼼히 분석합니다. 대중문화와 예술의 관계, 파시즘의 미학화에 대한 벤야민의 비판을 현재의 시각에서 재조명합니다.</p>
+            </details>
             </div>
             <div class="catalog-tabpanel" data-panel="예술사">
-              <div class="cat-item-row"><span class="cat-item-title">〈서양미술사: 고대, 중세, 근대의 서양미술사〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <div class="cat-item-row"><span class="cat-item-title">〈서양미술사: 현대의 서양미술사〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <div class="cat-item-row"><span class="cat-item-title">〈한국미술사: 현대의 한국미술사〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <div class="cat-item-row"><span class="cat-item-title">〈서양철학사: 서양철학사의 생성사〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <div class="cat-item-row"><span class="cat-item-title">〈세계명화사: 세계를 바꾸어 보기〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈서양미술사: 고대, 중세, 근대의 서양미술〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">고대 그리스 조각과 건축에서 출발해 중세 고딕 미술, 르네상스, 바로크를 거쳐 근대 미술의 문턱까지 서양미술사의 긴 흐름을 조망합니다. 각 시대의 사회·종교·철학적 맥락과 미술의 관계를 중심으로 서술합니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈서양미술사: 현대의 서양미술〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">인상주의 이후부터 현재까지 표현주의, 다다, 초현실주의, 추상표현주의, 팝아트, 개념미술을 거쳐 동시대 미술까지 20세기 서양미술의 격동하는 흐름을 다룹니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈한국미술사: 현대의 한국미술〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">해방 이후부터 현재까지 단색화, 민중미술, 설치·미디어아트 등 주요 흐름을 짚으며 한국미술의 정체성이 어떻게 형성되어 왔는지를 탐구합니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈서양음악사: 서양음악의 생성사〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">바로크의 대위법, 고전주의의 소나타 형식, 낭만주의의 표제음악을 거쳐 20세기 현대음악까지 음악의 양식적 변화를 핵심 작곡가와 작품을 통해 이해합니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈세계영화사: 세계를 이미지로 사유하기〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">뤼미에르 형제의 첫 상영부터 할리우드 고전기, 이탈리아 네오리얼리즘, 프랑스 누벨바그, 뉴 할리우드를 거쳐 동시대 세계 영화까지의 흐름을 추적합니다.</p>
+            </details>
             </div>
             <div class="catalog-tabpanel" data-panel="예술철학">
-              <div class="cat-item-row"><span class="cat-item-title">〈예술철학: 사상가들을 중심으로〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <div class="cat-item-row"><span class="cat-item-title">〈예술철학: 개념과 명제를 중심으로〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <div class="cat-item-row"><span class="cat-item-title">〈예술철학: 비평이론을 중심으로〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈예술철학: 사상가들을 중심으로〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">플라톤의 모방론에서 아리스토텔레스의 카타르시스, 톨스토이의 감정 전달론, 듀이의 경험으로서의 예술까지 주요 사상가들의 예술론을 비교·검토합니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈예술철학: 개념과 쟁점을 중심으로〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">예술의 정의, 예술적 가치, 미적 경험이라는 세 가지 큰 주제를 중심으로 현대 예술철학의 핵심 논쟁들을 체계적으로 살펴봅니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈예술철학: 비평이론을 중심으로〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">형식주의, 마르크스주의, 정신분석, 페미니즘, 탈구조주의 비평 이론들을 각각의 방법론과 전제, 한계를 함께 검토합니다.</p>
+            </details>
             </div>
           </div>
         </details>
 
         <!-- 정규 강독 -->
-        <details class="accordion" open>
+        <details class="accordion">
           <summary>
             <span class="accordion-title">정규 강독</span>
             <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6L8 11L13 6" stroke="#111111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -723,15 +836,18 @@
           <div class="accordion-body">
             <details class="cat-item" open>
               <summary>
-                <span class="cat-item-title">&lt;E. H. 곰브리치의 『서양미술사』 강독&gt;</span>
+                <span class="cat-item-title-wrap"><span class="cat-item-title">〈서양미술사〉 강독 — E.H. 곰브리치</span></span>
                 <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </summary>
-              <p class="cat-item-desc">이 강의는 이탈리아 르네상스 미술의 서사를 이끈 도시들 가운데 세 도시, 즉 피렌체, 베네치아, 로마의 특징에 주목하는 방식으로 이탈리아 르네상스 미술에 관한 깊이 있는 이해에 접근합니다.</p>
+              <p class="cat-item-desc">곰브리치의 《서양미술사》를 함께 읽으며 텍스트를 직접 분석합니다. 각 장의 핵심 논지를 파악하고, 곰브리치의 미술사 서술 방식을 비판적으로 검토합니다.</p>
             </details>
-            <div class="cat-item-row">
-              <span class="cat-item-title">&lt;군나르 시베르크의 『서양철학사』 강독&gt;</span>
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title-wrap"><span class="cat-item-badge">예정</span><span class="cat-item-title">〈현대미술의 의미〉 강독 — T. J. 클라크</span></span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">클라크의 텍스트를 통해 마르크스주의 미술사 방법론을 이해합니다.</p>
+            </details>
           </div>
         </details>
 
@@ -742,10 +858,62 @@
             <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6L8 11L13 6" stroke="#111111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </summary>
           <div class="accordion-body">
-            <div class="cat-item-row"><span class="cat-item-title">〈이탈리아 르네상스의 도시와 미술〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <div class="cat-item-row"><span class="cat-item-title">〈바로크 미술의 두 세계: 카라바조와 렘브란트〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <div class="cat-item-row"><span class="cat-item-title">〈낭만주의 미술의 시각과 전개〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <div class="cat-item-row"><span class="cat-item-title">〈인상주의가 두긴 인상주의: 현대미술의 문턱〉</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈이탈리아 르네상스의 도시와 미술〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">피렌체, 베네치아, 로마를 중심으로 르네상스 미술이 도시의 권력·상업·종교·인문주의와 어떻게 맞물려 새로운 시각 문화를 만들어냈는지를 추적합니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈바로크 미술의 두 세계: 카라바조와 렘브란트〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">카라바조의 키아로스쿠로와 거친 현실주의, 렘브란트의 내면적 심리 표현을 나란히 놓고 분석하며 같은 시대에 왜 이렇게 다른 회화 언어가 발전했는지를 이해합니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈낭만주의 미술의 시작과 전개〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">고야·들라크루아·프리드리히의 대표작을 통해 계몽주의에 대한 반발로 출현한 낭만주의 미술의 다양한 스펙트럼을 살펴봅니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈인상주의와 후기 인상주의: 현대미술의 문턱〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">모네와 르누아르로부터 세잔과 반 고흐까지, 인상주의가 어떻게 현대미술로 나아가는 길을 열었는지를 추적합니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈20세기 추상미술의 탄생〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">칸딘스키, 몬드리안, 말레비치를 중심으로 추상미술이 왜 20세기 초에 출현했는지, 각 작가들이 추상을 어떻게 다르게 이해했는지를 비교합니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈다다와 초현실주의〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">1차 세계대전 이후 등장한 다다의 반예술 정신과, 이를 계승하면서도 무의식의 세계를 탐구한 초현실주의를 살펴봅니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈팝아트와 소비사회〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">워홀, 리히텐슈타인, 해밀턴을 통해 팝아트가 소비사회와 대중문화를 어떻게 미술의 언어로 전환했는지를 이해합니다.</p>
+            </details>
+            <details class="cat-item">
+              <summary>
+                <span class="cat-item-title">〈개념미술과 현대미술의 확장〉</span>
+                <svg class="cat-item-plus" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 9H14.25M9 3.75V14.25" stroke="black" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <p class="cat-item-desc">뒤샹의 레디메이드에서 시작해 1960–70년대 개념미술까지, 예술의 물질성이 해체되고 아이디어 자체가 작품이 되는 과정을 살펴봅니다.</p>
+            </details>
           </div>
         </details>
 
@@ -857,6 +1025,73 @@
   </footer>
 
   <script>
+    /* ── Smooth open/close for all <details> (accordion + course items) ─ */
+    class SmoothDetails {
+      constructor(el) {
+        this.details = el;
+        this.summary = el.querySelector(':scope > summary');
+        this.content = el.querySelector(':scope > summary ~ *');
+        this.animation = null;
+        this.isClosing = false;
+        this.isExpanding = false;
+        this.summary.addEventListener('click', (e) => this.onClick(e));
+      }
+      onClick(e) {
+        e.preventDefault();
+        this.details.style.overflow = 'hidden';
+        if (this.isClosing || !this.details.open) {
+          this.open();
+        } else if (this.isExpanding || this.details.open) {
+          this.shrink();
+        }
+      }
+      shrink() {
+        this.isClosing = true;
+        const startHeight = `${this.details.offsetHeight}px`;
+        // Toggle open off just to measure the true closed layout (own padding +
+        // summary, with the closed-state padding already applied) — no paint
+        // happens between these two synchronous writes, so nothing flashes.
+        this.details.open = false;
+        const endHeight = `${this.details.offsetHeight}px`;
+        this.details.open = true;
+        if (this.animation) this.animation.cancel();
+        this.animation = this.details.animate(
+          { height: [startHeight, endHeight] },
+          { duration: 250, easing: 'ease-out' }
+        );
+        this.animation.onfinish = () => this.onAnimationFinish(false);
+        this.animation.oncancel = () => { this.isClosing = false; };
+      }
+      open() {
+        this.details.style.height = `${this.details.offsetHeight}px`;
+        this.details.open = true;
+        window.requestAnimationFrame(() => this.expand());
+      }
+      expand() {
+        this.isExpanding = true;
+        const startHeight = `${this.details.offsetHeight}px`;
+        // scrollHeight reflects the full natural (unclamped) height, including
+        // the accordion's own padding — accurate even while height is frozen.
+        const endHeight = `${this.details.scrollHeight}px`;
+        if (this.animation) this.animation.cancel();
+        this.animation = this.details.animate(
+          { height: [startHeight, endHeight] },
+          { duration: 250, easing: 'ease-out' }
+        );
+        this.animation.onfinish = () => this.onAnimationFinish(true);
+        this.animation.oncancel = () => { this.isExpanding = false; };
+      }
+      onAnimationFinish(open) {
+        this.details.open = open;
+        this.animation = null;
+        this.isClosing = false;
+        this.isExpanding = false;
+        this.details.style.height = '';
+        this.details.style.overflow = '';
+      }
+    }
+    document.querySelectorAll('.accordion, .cat-item').forEach((el) => new SmoothDetails(el));
+
     /* ── 3D Tilt on hero badge ────────────────────────────────────── */
     const heroBadge = document.getElementById('hero-badge');
     const MAX_TILT  = 24;
@@ -882,12 +1117,26 @@
       heroBadge.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
     });
 
+    /* ── Feature rows: reveal 1 → 2 → 3 on scroll ─────────────────── */
+    const featureRows = document.querySelectorAll('.feature-row');
+    const featureObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const row = entry.target;
+        const index = [...featureRows].indexOf(row);
+        setTimeout(() => row.classList.add('is-visible'), index * 150);
+        featureObserver.unobserve(row);
+      });
+    }, { threshold: 0.3 });
+    featureRows.forEach((row) => featureObserver.observe(row));
+
     /* ── Catalog tabs (정규 강의 미학/예술사/예술철학) ─────────────── */
     document.querySelectorAll('.accordion-tabs').forEach((tabGroup) => {
       const panel = tabGroup.closest('.accordion').querySelector('.accordion-body');
       tabGroup.querySelectorAll('.tab').forEach((tab) => {
         tab.addEventListener('click', (e) => {
           e.preventDefault();
+          e.stopPropagation();
           tabGroup.querySelectorAll('.tab').forEach((t) => t.classList.remove('is-active'));
           tab.classList.add('is-active');
           panel.querySelectorAll('.catalog-tabpanel').forEach((p) => {
