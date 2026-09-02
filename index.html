@@ -278,6 +278,19 @@
       padding: 16px 0;
     }
 
+    /* Tabs push the header taller when open — drop the summary's own
+       bottom padding there so it doesn't stack on top of the tabs' gap. */
+    .accordion:has(.accordion-tabs)[open] > summary {
+      padding-bottom: 0;
+    }
+
+    /* Pin the chevron to the top so it doesn't re-center (and shift down)
+       when the tabs make the title column taller on open — same fixed
+       spot as the accordions without tabs. */
+    .accordion:has(.accordion-tabs) > summary {
+      align-items: flex-start;
+    }
+
     .accordion > summary::-webkit-details-marker { display: none; }
 
     .accordion-title {
@@ -291,7 +304,7 @@
       display: none;
       gap: 4px;
       align-items: center;
-      margin-top: 12px;
+      margin-top: 16px;
     }
 
     .accordion[open] .accordion-tabs {
@@ -321,7 +334,8 @@
 
     .tab.is-active { background: var(--black); color: var(--white); border-radius: var(--r-pill); padding: 10px 12px; }
 
-    .chevron { flex-shrink: 0; }
+    .chevron { flex-shrink: 0; transition: transform 0.2s ease; }
+    .accordion[open] > summary .chevron { transform: rotate(180deg); }
 
     .accordion-body { padding-top: 0; }
 
@@ -412,7 +426,7 @@
     .reviews-marquee {
       width: 100%;
       overflow: hidden;
-      margin: 48px 0 60px;
+      margin: 60px 0 0;
     }
 
     .reviews-track {
