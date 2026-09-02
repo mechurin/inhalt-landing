@@ -67,7 +67,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 24px 21px;
+      padding: 20px 40px;
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--line);
@@ -93,20 +93,95 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 32px;
       list-style: none;
     }
 
     .nav-links a {
       font-size: 16px;
-      font-weight: 400;
-      color: var(--muted);
+      font-weight: 500;
+      color: var(--ink2);
       text-decoration: none;
       letter-spacing: 0.09px;
       transition: color 0.2s;
     }
 
     .nav-links a:hover { color: var(--ink); }
+
+    .nav-cta {
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.14px;
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid var(--ink);
+      border-radius: var(--r-pill);
+      padding: 15px 29px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .nav-cta:hover { background: var(--black); color: var(--white); }
+
+    .nav-toggle {
+      display: none;
+      position: relative;
+      width: 32px;
+      height: 32px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .nav-toggle span {
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      height: 1.5px;
+      background: var(--ink);
+      transition: transform 0.25s ease, opacity 0.2s ease, top 0.25s ease;
+    }
+
+    .nav-toggle span:nth-child(1) { top: 11px; }
+    .nav-toggle span:nth-child(2) { top: 16px; }
+    .nav-toggle span:nth-child(3) { top: 21px; }
+
+    .nav-toggle.is-open span:nth-child(1) { top: 16px; transform: rotate(45deg); }
+    .nav-toggle.is-open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.is-open span:nth-child(3) { top: 16px; transform: rotate(-45deg); }
+
+    .nav-mobile-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+      padding: 4px 20px 20px;
+    }
+
+    .nav-mobile-menu.is-open { display: flex; }
+
+    .nav-mobile-menu a:not(.nav-cta) {
+      padding: 14px 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink2);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-mobile-menu .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+      padding: 15px 29px;
+    }
 
     /* ─── Hero ──────────────────────────────────────────────────── */
     #hero {
@@ -621,6 +696,13 @@
       padding: 80px 24px;
     }
 
+    .footer-logo {
+      margin-bottom: 28px;
+      line-height: 0;
+    }
+
+    .footer-logo svg { display: block; height: 28px; width: auto; }
+
     .footer-top {
       display: flex;
       align-items: flex-end;
@@ -631,11 +713,11 @@
 
     .footer-desc {
       max-width: 560px;
-      font-size: 17px;
+      font-size: 14px;
       font-weight: 400;
-      color: var(--muted);
-      letter-spacing: -0.18px;
-      line-height: 27px;
+      color: var(--muted2);
+      letter-spacing: 0.2px;
+      line-height: 20px;
     }
 
     .footer-social {
@@ -666,6 +748,8 @@
     @media (max-width: 768px) {
       nav          { padding: 16px 20px; }
       .nav-links   { display: none; }
+      .nav-inner > .nav-cta { display: none; }
+      .nav-toggle  { display: block; }
 
       #hero        { padding: 80px 20px; gap: 36px; }
       .hero-tagline{ font-size: 26px; line-height: 1.4; letter-spacing: -0.6px; }
@@ -706,8 +790,17 @@
         <li><a href="#catalog">강의소개</a></li>
         <li><a href="#reviews">수강후기</a></li>
         <li><a href="#cta">수강신청</a></li>
-        <li><a href="#contact">문의 및 제안</a></li>
       </ul>
+      <a href="#contact" class="nav-cta">문의 및 제안</a>
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="nav-mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-mobile-menu" id="nav-mobile-menu">
+        <a href="#catalog">강의소개</a>
+        <a href="#reviews">수강후기</a>
+        <a href="#cta">수강신청</a>
+        <a href="#contact" class="nav-cta">문의 및 제안</a>
+      </div>
     </div>
   </nav>
 
@@ -963,7 +1056,7 @@
     <div class="wrap">
       <div class="reviews-head">
         <h2 class="section-label">수강후기</h2>
-        <a href="#" target="_blank" rel="noopener" class="pill-link">자세히 보기 →</a>
+        <a href="https://blog.naver.com/radiognod/224347403813" target="_blank" rel="noopener" class="pill-link">자세히 보기 →</a>
       </div>
     </div>
     <div class="reviews-marquee">
@@ -1077,8 +1170,8 @@
     <h2 class="cta-heading">수강신청</h2>
     <p class="cta-sub">현재 수강신청이 진행중인 강의를 확인할 수 있습니다</p>
     <div class="cta-btns">
-      <a href="#" target="_blank" rel="noopener" class="btn btn-fill">블로그에서 확인하기</a>
-      <a href="#" target="_blank" rel="noopener" class="btn btn-outline">인스타에서 확인하기</a>
+      <a href="https://blog.naver.com/radiognod/224370033000" target="_blank" rel="noopener" class="btn btn-fill">블로그에서 확인하기</a>
+      <a href="https://www.instagram.com/inhalt.lecture/" target="_blank" rel="noopener" class="btn btn-outline">인스타에서 확인하기</a>
     </div>
   </section>
 
@@ -1102,22 +1195,43 @@
   <!-- ── Footer ────────────────────────────────────────────────── -->
   <footer>
     <div class="wrap">
+      <div class="footer-logo">
+        <svg width="99" height="28" viewBox="0 0 99 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#footer-logo-clip)"><path d="M5.59552 26.854C-0.674903 23.516 -1.57604 15.1209 2.40399 9.66542C5.83332 5.26862 11.0774 2.71524 15.9711 0.27396C18.1864 -0.69757 20.6395 1.12094 21.0025 3.33802C21.9161 8.41987 22.4293 13.6636 21.2903 18.7579C19.7133 25.4216 12.1037 30.3167 5.59552 26.854ZM6.34646 25.5213C12.0286 28.2241 17.9236 23.8523 19.5131 18.2473C20.6395 13.9252 20.4393 9.12983 20.0137 4.69567C19.6883 0.734814 17.3979 0.224138 14.2064 2.06755C10.2013 4.12271 5.90841 6.63873 3.30512 10.2882C-0.0866591 15.2081 0.664289 22.6565 6.34646 25.5213Z" fill="#121212"/><path d="M14.4442 16.541C14.4442 16.541 13.2926 22.4324 8.94898 24.3008L14.4442 16.541Z" fill="#121212"/><path d="M11.4524 24.8738C11.4524 24.8738 19.2372 17.9485 20.1383 4.82043C20.1383 4.82043 21.6903 21.6354 11.4524 24.8738Z" fill="#121212"/><path d="M9.58819 7.43591C9.58819 7.43591 3.15507 12.2811 1.52801 22.9057C1.52801 22.9057 0.0511465 12.6548 9.58819 7.43591Z" fill="#121212"/><path d="M81.1777 23.5907H79.6758C79.2628 23.5907 78.9374 23.2669 78.9374 22.8559V10.7865C78.9374 10.7865 79.2503 7.83452 73.6808 7.88434C68.1112 7.93416 66.9848 10.8861 66.9848 10.8861C66.9848 10.8861 65.3327 14.4359 69.1 14.71C72.3165 14.9466 71.5531 11.8577 71.2652 10.9484C71.2026 10.7491 71.2277 10.5125 71.3403 10.3381C71.6157 9.95196 72.5919 9.65303 73.9311 10.3007V14.8221C73.9311 14.8221 67.3227 15.669 66.0336 20.3399C65.533 22.1335 65.4954 25.0107 68.7871 26.3932C72.0787 27.7758 73.8935 25.5961 73.8935 25.5961C73.8935 25.5961 74.6445 26.8665 77.1476 26.8665C79.6508 26.8665 81.1652 23.5907 81.1652 23.5907H81.1777ZM73.6057 23.0053C73.5181 23.1797 73.3929 23.3416 73.1551 23.3541C72.5043 23.4039 71.6782 23.0053 71.3528 22.4448C69.9511 19.9288 73.881 18.2473 73.881 18.2473C73.881 18.2473 73.881 22.4448 73.6057 23.0053Z" fill="#121212"/><path d="M95.6215 1.30774C95.6215 1.30774 93.694 5.40561 87.9743 9.05508H90.0019L90.1396 23.6405C90.1396 23.6405 90.2772 27.6263 95.4713 26.6672C98.2498 26.1565 99.0007 22.8558 99.0007 22.8558L96.9356 23.3291C96.2723 23.4786 95.6215 23.0053 95.6215 22.3451V9.05508H99.0007V7.28639L95.6215 7.32376V1.30774Z" fill="#121212"/><path d="M42.2538 6.57637L35.8457 9.97673L36.822 11.571L36.9096 24.1885C36.9096 24.7988 36.7219 25.3842 36.3839 25.8824L36.1086 26.2685H43.0674L42.7795 25.87C42.4416 25.4091 42.2664 24.8611 42.2664 24.2881V12.6547C42.2664 12.1564 42.5792 11.7205 43.0423 11.571C43.0549 11.571 43.2426 11.5212 43.2676 11.5212C43.9435 11.4465 44.5317 11.9447 44.5317 12.7169L44.5567 24.0764C44.5567 24.7614 44.344 25.434 43.9435 25.9945L43.7432 26.281H50.702L50.2514 25.6458C50.0136 25.3095 49.8885 24.9109 49.8885 24.4999L49.8509 12.5426C49.8509 11.3593 49.4129 10.2134 48.5868 9.37886C47.911 8.69381 46.9222 8.05858 45.5455 7.92157C43.1925 7.69737 42.2789 8.25786 42.2789 8.25786V6.60128L42.2538 6.57637Z" fill="#121212"/><path d="M57.2352 0.660213L50.8271 4.06057L51.8034 5.65488L51.891 24.3381C51.891 24.8488 51.7408 25.347 51.4404 25.7705L51.09 26.2812H58.0488L57.5857 25.646C57.3604 25.3346 57.2352 24.9734 57.2352 24.5873V12.6549C57.2352 12.1567 57.5481 11.7207 58.0112 11.5712C58.0237 11.5712 58.2115 11.5214 58.2365 11.5214C58.9123 11.4467 59.5006 11.9449 59.5006 12.7172L59.5256 24.3631C59.5256 24.8613 59.3754 25.347 59.0876 25.7581L58.7121 26.2812H65.6709L65.358 25.8453C65.0326 25.3844 64.8573 24.8364 64.8573 24.2634L64.8198 12.5428C64.8198 11.3595 64.3817 10.2136 63.5557 9.37907C62.8799 8.69402 61.8911 8.05879 60.5144 7.92178C58.1614 7.69758 57.2477 8.25808 57.2477 8.25808V0.660213H57.2352Z" fill="#121212"/><path d="M87.1102 0.660158L80.7146 4.06051L82.0664 5.06941V23.0303C82.0664 23.5534 81.9037 24.0765 81.5908 24.5L80.3517 26.2562H89.1878L87.9988 24.7367C87.5358 24.1513 87.2854 23.4413 87.2854 22.694L87.1102 0.635247V0.660158Z" fill="#121212"/><path d="M33.4801 21.5604V5.50525C33.5052 4.75792 33.8556 3.74903 34.2812 3.13871L35.6078 1.30774H25.6452L26.9469 3.13871C27.3599 3.73657 27.7729 4.84511 27.7729 5.67963V21.6351C27.7729 22.4198 27.5351 23.5907 27.0595 24.1761L25.6452 26.2686H35.6078L34.0934 24.1263C33.6178 23.5658 33.4801 22.3949 33.4801 21.5604Z" fill="#121212"/></g><defs><clipPath id="footer-logo-clip"><rect width="99" height="28" fill="white"/></clipPath></defs></svg>
+      </div>
       <div class="footer-top">
-        <p class="footer-desc">이미 도래한 예술과 장차 도래할 예술을 위한 지식을 일상의 언어로 전달합니다.</p>
+        <p class="footer-desc">대표자 윤재훈<br>사업자번호 688-15-02438</p>
         <div class="footer-social">
-          <a href="#" aria-label="Instagram">
+          <a href="https://www.instagram.com/inhalt.lecture/" target="_blank" rel="noopener" aria-label="Instagram">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.2188 1.40625H4.78125C2.92043 1.40625 1.40625 2.92043 1.40625 4.78125V13.2188C1.40625 15.0796 2.92043 16.5938 4.78125 16.5938H13.2188C15.0796 16.5938 16.5938 15.0796 16.5938 13.2188V4.78125C16.5938 2.92043 15.0796 1.40625 13.2188 1.40625Z" stroke="white" stroke-width="1.40625" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 12.2695C10.8057 12.2695 12.2695 10.8057 12.2695 9C12.2695 7.19429 10.8057 5.73047 9 5.73047C7.19429 5.73047 5.73047 7.19429 5.73047 9C5.73047 10.8057 7.19429 12.2695 9 12.2695Z" stroke="white" stroke-width="1.40625" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.6522 5.22668C14.1376 5.22668 14.5311 4.83318 14.5311 4.34777C14.5311 3.86237 14.1376 3.46887 13.6522 3.46887C13.1668 3.46887 12.7733 3.86237 12.7733 4.34777C12.7733 4.83318 13.1668 5.22668 13.6522 5.22668Z" fill="white"/></svg>
           </a>
-          <a href="#" aria-label="Naver Blog">
+          <a href="https://blog.naver.com/radiognod" target="_blank" rel="noopener" aria-label="Naver Blog">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.87277 5.16564C5.60791 5.16564 4.43575 5.56218 3.47329 6.23754V1.26324H0.679688V16.7126H3.47329V15.9455C4.43575 16.6207 5.60791 17.0174 6.87277 17.0174C10.1455 17.0174 12.7985 14.3644 12.7985 11.0916C12.7985 7.81884 10.1453 5.16564 6.87277 5.16564ZM6.60673 14.4292C4.82239 14.4292 3.37591 12.9337 3.37591 11.0891C3.37591 9.24444 4.82239 7.749 6.60673 7.749C8.39107 7.749 9.83755 9.24444 9.83755 11.0891C9.83755 12.9337 8.39107 14.4292 6.60673 14.4292ZM16.202 0H17.3194V18H16.202V0Z" fill="white"/></svg>
           </a>
         </div>
       </div>
-      <div class="footer-bottom">© 2026 Inhalt. All Rights Reserved.</div>
+      <div class="footer-bottom">© 2026 Inhalt. All Rights Reserved. SINCE 2024.</div>
     </div>
   </footer>
 
   <script>
+    /* ── Mobile hamburger menu ────────────────────────────────────── */
+    const navToggle = document.getElementById('nav-toggle');
+    const navMobileMenu = document.getElementById('nav-mobile-menu');
+
+    function setMenuOpen(open) {
+      navToggle.classList.toggle('is-open', open);
+      navMobileMenu.classList.toggle('is-open', open);
+      navToggle.setAttribute('aria-expanded', String(open));
+    }
+
+    navToggle.addEventListener('click', () => {
+      setMenuOpen(!navToggle.classList.contains('is-open'));
+    });
+
+    navMobileMenu.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', () => setMenuOpen(false));
+    });
+
     /* ── Smooth open/close for all <details> (accordion + course items) ─ */
     class SmoothDetails {
       constructor(el) {
