@@ -491,6 +491,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 20px;
+      padding: 0 24px;
     }
 
     .reviews-head .section-label {
@@ -618,6 +619,8 @@
       margin-top: 11px;
     }
 
+    .br-mobile { display: none; }
+
     .cta-btns {
       display: flex;
       gap: 16px;
@@ -679,6 +682,7 @@
       color: var(--body);
       cursor: pointer;
       padding: 0;
+      text-align: left;
     }
 
     .contact-row svg { flex-shrink: 0; }
@@ -763,6 +767,7 @@
       .feature-text{ font-size: 16px; line-height: 1.7; }
 
       #catalog, #cta, #contact, footer { padding-left: 20px; padding-right: 20px; }
+      .reviews-head { padding-left: 20px; padding-right: 20px; }
       #catalog, #reviews, #cta, #contact { padding-top: 80px; padding-bottom: 80px; }
       .section-label { font-size: 26px; margin-bottom: 40px; }
 
@@ -771,6 +776,7 @@
       .review-card { flex-basis: 280px; min-height: 280px; padding: 24px; }
 
       .cta-heading { font-size: 28px; }
+      .br-mobile   { display: block; }
 
       #contact { flex-direction: column; text-align: center; gap: 32px; }
 
@@ -1168,7 +1174,7 @@
   <!-- ── CTA ───────────────────────────────────────────────────── -->
   <section id="cta">
     <h2 class="cta-heading">수강신청</h2>
-    <p class="cta-sub">현재 수강신청이 진행중인 강의를 확인할 수 있습니다</p>
+    <p class="cta-sub">현재 수강신청이 진행중인 강의를<br class="br-mobile"> 확인할 수 있습니다</p>
     <div class="cta-btns">
       <a href="https://blog.naver.com/radiognod/224370033000" target="_blank" rel="noopener" class="btn btn-fill">블로그에서 확인하기</a>
       <a href="https://www.instagram.com/inhalt.lecture/" target="_blank" rel="noopener" class="btn btn-outline">인스타에서 확인하기</a>
