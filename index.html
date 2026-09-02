@@ -670,6 +670,7 @@
     }
 
     .contact-row {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -687,6 +688,12 @@
 
     .contact-row svg { flex-shrink: 0; }
     .contact-row .copied-label {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      white-space: nowrap;
+      pointer-events: none;
       font-size: 12px;
       color: var(--faint);
       opacity: 0;
@@ -785,7 +792,9 @@
       .br-mobile   { display: block; }
 
       #contact { flex-direction: column; text-align: center; gap: 32px; }
-      .contact-row { font-size: 16px; }
+      .contact-card { padding: 24px; }
+      .contact-row { font-size: 15px; }
+      .contact-row svg { width: 15px; height: 15px; }
 
       .footer-top { flex-direction: column; align-items: flex-start; }
     }
@@ -1344,10 +1353,10 @@
         if (!entry.isIntersecting) return;
         const row = entry.target;
         const index = [...featureRows].indexOf(row);
-        setTimeout(() => row.classList.add('is-visible'), index * 150);
+        setTimeout(() => row.classList.add('is-visible'), index * 350);
         featureObserver.unobserve(row);
       });
-    }, { threshold: 0.3 });
+    }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
     featureRows.forEach((row) => featureObserver.observe(row));
 
     /* ── Catalog tabs (정규 강의 미학/예술사/예술철학) ─────────────── */
