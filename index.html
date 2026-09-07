@@ -552,6 +552,10 @@
       transition: color 0.25s ease;
     }
 
+    @media (max-width: 768px) {
+      .reviews-track.is-paused { animation-play-state: paused; }
+    }
+
     @media (hover: hover) {
       .reviews-track:has(.review-card:hover) { animation-play-state: paused; }
       .review-card:hover { background: var(--black); border-color: #cccccc; }
@@ -1385,6 +1389,12 @@
       window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(setDistance, 150);
+      });
+
+      track.addEventListener('click', (e) => {
+        if (!window.matchMedia('(max-width: 768px)').matches) return;
+        if (!e.target.closest('.review-card')) return;
+        track.classList.toggle('is-paused');
       });
     });
 
