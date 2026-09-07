@@ -270,13 +270,11 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 120px;
+      gap: 80px;
     }
 
     .feature-row {
       display: flex;
-      align-items: center;
-      gap: 48px;
       width: 100%;
       opacity: 0;
       transform: translateY(28px);
@@ -291,16 +289,14 @@
     .feature-row.f-center { justify-content: center; }
     .feature-row.f-end    { justify-content: flex-end; }
 
-    .feature-num {
-      flex-shrink: 0;
-      width: 84px;
-      font-family: var(--font-serif);
-      font-size: 130px;
-      line-height: 1;
-      letter-spacing: -1.6px;
-      text-align: center;
-      color: rgba(255, 255, 255, 0.15);
+    .feature-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
     }
+
+    .feature-icon svg { display: block; width: 28px; height: 47px; }
 
     .feature-text {
       font-size: 20px;
@@ -786,8 +782,7 @@
       .feature-list{ gap: 64px; }
       .feature-row,
       .feature-row.f-center,
-      .feature-row.f-end { justify-content: flex-start; gap: 20px; }
-      .feature-num { font-size: 72px; width: 56px; }
+      .feature-row.f-end { justify-content: flex-start; }
       .feature-text{ font-size: 15px; line-height: 1.7; }
 
       .wrap { padding-left: 20px; padding-right: 20px; }
@@ -856,16 +851,22 @@
   <section id="features">
     <div class="feature-list">
       <div class="feature-row">
-        <span class="feature-num">1</span>
-        <p class="feature-text">예술을 감상하고 이해하는 데 필요한 지식을 <br>일상에서 <b>흔히 사용하는 </b><br><b>편안한 어휘와 표현을 통해 전달합니다.</b></p>
+        <div class="feature-item">
+          <span class="feature-icon"><svg width="28" height="47" viewBox="0 0 28 47" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.65008 40.5432C-1.3633 36.2493 -2.51492 25.4505 2.57141 18.4329C6.95398 12.7771 13.6558 9.49263 19.9097 6.35233C22.7408 5.10261 25.8758 7.44182 26.3396 10.2937C27.5072 16.8307 28.163 23.5759 26.7075 30.1289C24.6922 38.7007 14.9673 44.9973 6.65008 40.5432ZM7.60976 38.8288C14.8714 42.3056 22.4049 36.6819 24.4362 29.472C25.8758 23.9124 25.6199 17.7439 25.076 12.0401C24.6602 6.94514 21.7331 6.28824 17.6545 8.65949C12.5361 11.3031 7.04995 14.5395 3.72304 19.234C-0.611543 25.5627 0.348142 35.1438 7.60976 38.8288Z" fill="white"/><path d="M17.9572 27.2771C17.9572 27.2771 16.4857 34.8555 10.9355 37.2588L17.9572 27.2771Z" fill="white"/><path d="M14.1348 37.9962C14.1348 37.9962 24.0835 29.0879 25.2351 12.2008C25.2351 12.2008 27.2185 33.8304 14.1348 37.9962Z" fill="white"/><path d="M11.7519 15.5654C11.7519 15.5654 3.53056 21.798 1.45124 35.4647C1.45124 35.4647 -0.436137 22.2786 11.7519 15.5654Z" fill="white"/></svg></span>
+          <p class="feature-text">예술을 감상하고 이해하는 데 필요한 지식을 <br>일상에서 <b>흔히 사용하는 </b><br><b>편안한 어휘와 표현을 통해 전달합니다.</b></p>
+        </div>
       </div>
       <div class="feature-row f-center">
-        <span class="feature-num">2</span>
-        <p class="feature-text">장소에 구애받지 않고 강의를 수강할 수 있도록, <br>인할트의 모든 강의는 <b>ZOOM을 활용한 </b><br><b>비대면 방식으로 진행됩니다.</b></p>
+        <div class="feature-item">
+          <span class="feature-icon"><svg width="28" height="47" viewBox="0 0 28 47" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.65008 40.5432C-1.3633 36.2493 -2.51492 25.4505 2.57141 18.4329C6.95398 12.7771 13.6558 9.49263 19.9097 6.35233C22.7408 5.10261 25.8758 7.44182 26.3396 10.2937C27.5072 16.8307 28.163 23.5759 26.7075 30.1289C24.6922 38.7007 14.9673 44.9973 6.65008 40.5432ZM7.60976 38.8288C14.8714 42.3056 22.4049 36.6819 24.4362 29.472C25.8758 23.9124 25.6199 17.7439 25.076 12.0401C24.6602 6.94514 21.7331 6.28824 17.6545 8.65949C12.5361 11.3031 7.04995 14.5395 3.72304 19.234C-0.611543 25.5627 0.348142 35.1438 7.60976 38.8288Z" fill="white"/><path d="M17.9572 27.2771C17.9572 27.2771 16.4857 34.8555 10.9355 37.2588L17.9572 27.2771Z" fill="white"/><path d="M14.1348 37.9962C14.1348 37.9962 24.0835 29.0879 25.2351 12.2008C25.2351 12.2008 27.2185 33.8304 14.1348 37.9962Z" fill="white"/><path d="M11.7519 15.5654C11.7519 15.5654 3.53056 21.798 1.45124 35.4647C1.45124 35.4647 -0.436137 22.2786 11.7519 15.5654Z" fill="white"/></svg></span>
+          <p class="feature-text">장소에 구애받지 않고 강의를 수강할 수 있도록, <br>인할트의 모든 강의는 <b>ZOOM을 활용한 </b><br><b>비대면 방식으로 진행됩니다.</b></p>
+        </div>
       </div>
       <div class="feature-row f-end">
-        <span class="feature-num">3</span>
-        <p class="feature-text">강의의 녹화본은 자유롭게 이용이 가능합니다. <br>따라서 <b>실시간 강의 일정에 </b><br><b>크게 구애받지 않고 강의를 수강</b>하실 수 있습니다.</p>
+        <div class="feature-item">
+          <span class="feature-icon"><svg width="28" height="47" viewBox="0 0 28 47" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.65008 40.5432C-1.3633 36.2493 -2.51492 25.4505 2.57141 18.4329C6.95398 12.7771 13.6558 9.49263 19.9097 6.35233C22.7408 5.10261 25.8758 7.44182 26.3396 10.2937C27.5072 16.8307 28.163 23.5759 26.7075 30.1289C24.6922 38.7007 14.9673 44.9973 6.65008 40.5432ZM7.60976 38.8288C14.8714 42.3056 22.4049 36.6819 24.4362 29.472C25.8758 23.9124 25.6199 17.7439 25.076 12.0401C24.6602 6.94514 21.7331 6.28824 17.6545 8.65949C12.5361 11.3031 7.04995 14.5395 3.72304 19.234C-0.611543 25.5627 0.348142 35.1438 7.60976 38.8288Z" fill="white"/><path d="M17.9572 27.2771C17.9572 27.2771 16.4857 34.8555 10.9355 37.2588L17.9572 27.2771Z" fill="white"/><path d="M14.1348 37.9962C14.1348 37.9962 24.0835 29.0879 25.2351 12.2008C25.2351 12.2008 27.2185 33.8304 14.1348 37.9962Z" fill="white"/><path d="M11.7519 15.5654C11.7519 15.5654 3.53056 21.798 1.45124 35.4647C1.45124 35.4647 -0.436137 22.2786 11.7519 15.5654Z" fill="white"/></svg></span>
+          <p class="feature-text">강의의 녹화본은 자유롭게 이용이 가능합니다. <br>따라서 <b>실시간 강의 일정에 </b><br><b>크게 구애받지 않고 강의를 수강</b>하실 수 있습니다.</p>
+        </div>
       </div>
     </div>
   </section>
