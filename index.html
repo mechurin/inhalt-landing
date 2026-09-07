@@ -101,6 +101,13 @@
       color: var(--ink2);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    img, svg {
+      -webkit-user-drag: none;
     }
 
     .wrap {
@@ -1369,6 +1376,9 @@
   </footer>
 
   <script>
+    /* ── Block right-click context menu ──────────────────────────── */
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+
     /* ── Mobile hamburger menu ────────────────────────────────────── */
     const navToggle = document.getElementById('nav-toggle');
     const navMobileMenu = document.getElementById('nav-mobile-menu');
