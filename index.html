@@ -210,35 +210,14 @@
 
     .hero-badge {
       width: min(320px, 60vw);
-      opacity: 0;
       position: relative;
       z-index: 1;
-      perspective: 1400px;
-      cursor: default;
-      animation: badgeSpin 2.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-      animation-delay: 0.15s;
-      transform-style: preserve-3d;
-      will-change: transform;
     }
-
-    .hero-badge.is-tilting   { transition: transform 0.08s linear; }
-    .hero-badge.is-resetting { transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1); }
 
     .hero-badge svg {
       display: block;
       width: 100%;
       height: auto;
-      filter: drop-shadow(0 0 40px rgba(0,0,0,0.06));
-      transition: filter 0.3s;
-    }
-
-    .hero-badge:hover svg { filter: drop-shadow(0 0 60px rgba(0,0,0,0.12)); }
-
-    @keyframes badgeSpin {
-      0%   { transform: rotateY(720deg) rotateX(15deg) scale(0.35); opacity: 0; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
-      22%  { opacity: 1; }
-      55%  { transform: rotateY(18deg) rotateX(2deg) scale(1.035); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); }
-      100% { transform: rotateY(0deg) rotateX(0deg) scale(1); opacity: 1; }
     }
 
     .hero-tagline {
@@ -247,16 +226,8 @@
       color: var(--ink2);
       line-height: 52px;
       letter-spacing: -1.13px;
-      opacity: 0;
       position: relative;
       z-index: 1;
-      animation: heroFadeUp 0.9s ease forwards;
-      animation-delay: 1.7s;
-    }
-
-    @keyframes heroFadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ─── Features (numbered) ───────────────────────────────────── */
@@ -780,9 +751,7 @@
 
       #features    { padding: 80px 20px; }
       .feature-list{ gap: 64px; }
-      .feature-row,
-      .feature-row.f-center,
-      .feature-row.f-end { justify-content: flex-start; }
+      .feature-icon svg { width: 22px; height: 30px; }
       .feature-text{ font-size: 15px; line-height: 1.7; }
 
       .wrap { padding-left: 20px; padding-right: 20px; }
@@ -1345,31 +1314,6 @@
       }
     }
     document.querySelectorAll('.accordion, .cat-item').forEach((el) => new SmoothDetails(el));
-
-    /* ── 3D Tilt on hero badge ────────────────────────────────────── */
-    const heroBadge = document.getElementById('hero-badge');
-    const MAX_TILT  = 24;
-    const MAX_SCALE = 1.06;
-    let tiltReady = false;
-    setTimeout(() => { tiltReady = true; }, 2500);
-
-    heroBadge.addEventListener('mousemove', (e) => {
-      if (!tiltReady) return;
-      const rect = heroBadge.getBoundingClientRect();
-      const nx = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
-      const ny = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
-      const ry =  nx * MAX_TILT;
-      const rx = -ny * MAX_TILT * 0.6;
-      heroBadge.classList.add('is-tilting');
-      heroBadge.classList.remove('is-resetting');
-      heroBadge.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) scale(${MAX_SCALE})`;
-    });
-
-    heroBadge.addEventListener('mouseleave', () => {
-      heroBadge.classList.remove('is-tilting');
-      heroBadge.classList.add('is-resetting');
-      heroBadge.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-    });
 
     /* ── Feature rows: reveal 1 → 2 → 3 on scroll ─────────────────── */
     const featureRows = document.querySelectorAll('.feature-row');
