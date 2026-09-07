@@ -591,6 +591,12 @@
 
     @media (max-width: 768px) {
       .reviews-track.is-paused { animation-play-state: paused; }
+      .review-card.is-active { background: var(--black); border-color: #cccccc; }
+      .review-card.is-active .review-mark { color: var(--white); }
+      .review-card.is-active .review-text { color: var(--white); }
+      .review-card.is-active .review-foot { border-bottom-color: rgba(255, 255, 255, 0.2); }
+      .review-card.is-active .review-meta { color: rgba(255, 255, 255, 0.8); }
+      .review-card.is-active .review-author { color: var(--white); }
     }
 
     @media (hover: hover) {
@@ -1455,8 +1461,12 @@
 
       track.addEventListener('click', (e) => {
         if (!window.matchMedia('(max-width: 768px)').matches) return;
-        if (!e.target.closest('.review-card')) return;
-        track.classList.toggle('is-paused');
+        const card = e.target.closest('.review-card');
+        if (!card) return;
+        const isPausing = !track.classList.contains('is-paused');
+        track.querySelectorAll('.review-card.is-active').forEach((c) => c.classList.remove('is-active'));
+        track.classList.toggle('is-paused', isPausing);
+        if (isPausing) card.classList.add('is-active');
       });
     });
 
