@@ -1521,6 +1521,11 @@
       const setDistance = () => {
         const firstClone = track.children[originals.length];
         track.style.setProperty('--track-distance', firstClone.offsetLeft + 'px');
+        // Safari resolves var() inside @keyframes only when the animation
+        // starts, so restart it to pick up the new distance.
+        track.style.animation = 'none';
+        void track.offsetWidth;
+        track.style.animation = '';
       };
       setDistance();
 
