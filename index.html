@@ -1520,7 +1520,11 @@
 
       const setDistance = () => {
         const firstClone = track.children[originals.length];
-        track.style.setProperty('--track-distance', firstClone.offsetLeft + 'px');
+        const distance = firstClone.offsetLeft + 'px';
+        // Mobile browsers fire resize while the URL bar collapses on scroll;
+        // skip those so the marquee doesn't snap back to the start.
+        if (track.style.getPropertyValue('--track-distance') === distance) return;
+        track.style.setProperty('--track-distance', distance);
         // Safari resolves var() inside @keyframes only when the animation
         // starts, so restart it to pick up the new distance.
         track.style.animation = 'none';
